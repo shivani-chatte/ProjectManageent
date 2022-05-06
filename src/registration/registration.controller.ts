@@ -19,6 +19,16 @@ export class RegistrationController {
       return this.registrationService.findUser();
   }
 
+  @Get(':user_name')
+  find(@Param('user_name') user_name: string){
+      return this.registrationService.findbyUserName(user_name);
+  }
+
+  @Get('email/:email')
+  findmail(@Param('email') email: string){
+      return this.registrationService.findbyEmail(email);
+  }
+
   @Get(':id')
     @UsePipes(ValidationPipe)
     findOne(@Param('id') id: number){

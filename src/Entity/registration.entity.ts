@@ -2,7 +2,8 @@ import { IsDate, IsEmail, IsIn, IsNotEmpty, IsNumber, IsString, MaxLength } from
 import {Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import { department } from "./department.entity";
 import { user_type } from "./user_type.entity";
-
+import * as bcrypt from 'bcrypt';
+var crypto = require('crypto');
 
 
 @Entity()
@@ -10,7 +11,7 @@ export class registration{
     @PrimaryGeneratedColumn()
     id : Number;
 
-    @Column({default:'', unique: true})
+    @Column({default:''})
     @IsString()
     @IsNotEmpty()
     name: String;
@@ -20,8 +21,7 @@ export class registration{
     @IsNotEmpty()
     address: String;
 
-    @Column()
-    @MaxLength(10)
+    @Column({length:10, nullable:true})
     @IsNotEmpty()
     mobilenumber: String;
 
@@ -46,18 +46,16 @@ export class registration{
 
     @Column({unique: true})
     @IsNotEmpty()
-    user_name: String;
+    user_name: string;
 
     @Column({nullable: true})
     @IsNotEmpty()
-    password: String;
+    password: string;
 
     @Column({default:0})
-    @IsNotEmpty()
     status: Number;
 
     
-
     @ManyToOne(() => department , departments => departments.registrations)
     @JoinColumn({name: "department"})
     departments: department[];
@@ -67,4 +65,6 @@ export class registration{
     user_types: user_type[];
     
 }
+
+
 

@@ -1,13 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { profile } from 'console';
+import { from } from 'rxjs';
 import { department } from 'src/Entity/department.entity';
 import { registration } from 'src/Entity/registration.entity';
 import { user_type } from 'src/Entity/user_type.entity';
-import { AuthService } from 'src/login/auth.service';
-import { Repository } from 'typeorm';
 
-var crypto = require('crypto');
+import { Repository } from 'typeorm';
+//import * as md5 from 'apache-md5'
+const md5 = require("apache-md5");
 
 @Injectable()
 export class RegistrationService {
@@ -18,7 +19,7 @@ export class RegistrationService {
     private readonly UserTypeRepository: Repository<user_type>,
     @InjectRepository(department)
     private readonly DepartmentRepository: Repository<department>,
-    private authService : AuthService,
+   
   ){}
 
   async getUserById(id): Promise<user_type>{
@@ -28,6 +29,18 @@ export class RegistrationService {
     }
     return usertype;
   }
+
+  async findbyUserName(user_name:string ) {
+      let user = await this.RegRepository.findOne({user_name:user_name});
+      
+      return user;
+    }
+
+    async findbyEmail(email:string ) {
+      let user = await this.RegRepository.findOne({email:email});
+     
+      return user;
+    }
 
   async getDepartmentById(id): Promise<department>{
     let department=  await this.DepartmentRepository.findOne(id, {relations :['registrations']});
@@ -43,12 +56,12 @@ export class RegistrationService {
   async Add(registration:registration, user_type:user_type, department:department){
     let encrptpassword
     if(registration.password){
-      encrptpassword = await  crypto.createHash('md5').update(registration.password).digest('hex');
+      encrptpassword = md5(registration.password);
     }
   
     registration['password'] = encrptpassword
     return await this.RegRepository.save(registration)
-  
+
   }
 
   //---------------------Get user--------------------//
