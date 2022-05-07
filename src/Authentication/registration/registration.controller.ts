@@ -1,7 +1,9 @@
-import { Body, Controller, Get, Param, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, UploadedFiles, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { registration } from 'src/Entity/registration.entity';
+import { Helper } from './helper';
 import { RegistrationService } from './registration.service';
-
+import { diskStorage } from 'multer';
 @Controller('registration')
 export class RegistrationController {
   constructor(private readonly registrationService: RegistrationService) {}
@@ -52,6 +54,11 @@ export class RegistrationController {
           return this.registrationService.delete(id);
           
       }
+
+
+
   
 
 }
+
+

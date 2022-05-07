@@ -1,7 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { profile } from 'console';
-import { from } from 'rxjs';
 import { department } from 'src/Entity/department.entity';
 import { registration } from 'src/Entity/registration.entity';
 import { user_type } from 'src/Entity/user_type.entity';
@@ -22,6 +20,7 @@ export class RegistrationService {
    
   ){}
 
+  //-----------------Finding user-type from user-type entity------------//
   async getUserById(id): Promise<user_type>{
     let usertype=  await this.UserTypeRepository.findOne(id, {relations :['registrations']});
     if(!usertype){
@@ -30,18 +29,21 @@ export class RegistrationService {
     return usertype;
   }
 
+  //-----------------Finding user by it's user_name ----------------//
   async findbyUserName(user_name:string ) {
       let user = await this.RegRepository.findOne({user_name:user_name});
       
       return user;
     }
 
+    //-----------------Finding user by it's email ----------------//
     async findbyEmail(email:string ) {
       let user = await this.RegRepository.findOne({email:email});
      
       return user;
     }
 
+    //----------------- finding department from department entity-----------------//
   async getDepartmentById(id): Promise<department>{
     let department=  await this.DepartmentRepository.findOne(id, {relations :['registrations']});
     if(!department){

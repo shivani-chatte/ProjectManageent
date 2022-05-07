@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, UsePipes, ValidationPipe } from '@nestjs/common';
-import { registration } from 'src/Entity/registration.entity';
+import { Res } from '@nestjs/common';
 import { LoginService } from './login.service';
 
 @Controller('login')
@@ -7,7 +7,7 @@ export class LoginController {
   constructor(private readonly loginService: LoginService) {}
 
   @Post()
-  login(@Body() data) {
-    return this.loginService.validateUser(data);
+  login(@Body() data ) {
+     this.loginService.validateUser(data);  
   }
 }

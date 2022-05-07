@@ -1,7 +1,7 @@
 import { MailerService } from "@nestjs-modules/mailer";
-import { Injectable } from "@nestjs/common";
-import { RegistrationService } from "src/registration/registration.service";
-
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import { RegistrationService } from "src/Authentication/registration/registration.service";
+import * as md5 from 'apache-md5';
 
 @Injectable()
 export class MailService {
@@ -9,22 +9,25 @@ export class MailService {
         private RegistrationService: RegistrationService
     ) { }
 
+    //--------------   Process of Sending Mail  ---------------//
 
     async sendMail(data) {
         const user = await this.RegistrationService.findbyEmail(data.email);
         if (!user) {
-            // let result = "Enter valid email ID"
-            console.log('is working');
-            return await { msg: "Enter valid Email Id" };
+            throw new BadRequestException(`${data.email} is not valid email`)
+            
         } else {
-            // console.log(data.link)
+            var minutesToAdd=30;
+            var currentDate = new Date();
+            var expiryDate = new Date(currentDate.getTime() + minutesToAdd*60000);
+            var encryptedexpiryDate = md5(expiryDate)
             await this.mailerService.sendMail({
-                to: data.email, // list of receivers
+                to: data.email, 
                 template: '/email',
                 context: {
                     name: data.name,
-                    // link: data.link
-                } // HTML body content
+                    link : 'https://localhost:4200/#/reset/'+encryptedexpiryDate+'/'+user.id
+                } 
             })
                 .then(() => { })
                 .catch(() => { });
