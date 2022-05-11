@@ -1,13 +1,15 @@
 import { IsDate, IsEmail, IsIn, IsNotEmpty, IsNumber, IsString, MaxLength } from "class-validator";
-import {Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import { department } from "./department.entity";
 import { user_type } from "./user_type.entity";
 import * as bcrypt from 'bcrypt';
+import { Projectinfo } from "./project_info.entity";
 var crypto = require('crypto');
 
 
 @Entity()
 export class registration{
+    
     @PrimaryGeneratedColumn()
     id : Number;
 
@@ -25,7 +27,7 @@ export class registration{
     @IsNotEmpty()
     mobilenumber: String;
 
-    @Column()
+    @Column({nullable:true})
     date_of_birth: Date;
 
     @Column({nullable:true})
@@ -63,6 +65,9 @@ export class registration{
     @ManyToOne(() => user_type , user_types => user_types.registrations)
     @JoinColumn({name: "user_type"})
     user_types: user_type[];
+
+     @ManyToMany(() => Projectinfo, (project_infos) => project_infos.registrations)
+     project_infos: Projectinfo[]
     
 }
 

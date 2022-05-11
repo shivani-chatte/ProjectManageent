@@ -1,9 +1,14 @@
-import { Body, Controller, Get, Param, Post, Put, UploadedFiles, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { Body, Controller, Get, Param, Post, Put, UploadedFile, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import path from 'path';
 import { registration } from 'src/Entity/registration.entity';
 import { Helper } from './helper';
 import { RegistrationService } from './registration.service';
-import { diskStorage } from 'multer';
+import {diskStorage} from 'multer';
+import { Observable, of } from 'rxjs';
+import { v4 as uuidv4} from 'uuid'; 
+import { platform } from 'os';
+
 @Controller('registration')
 export class RegistrationController {
   constructor(private readonly registrationService: RegistrationService) {}
@@ -15,6 +20,19 @@ export class RegistrationController {
     const department = await this.registrationService.getDepartmentById(registration.department);
     return await this.registrationService.Add(registration,usertype,department);
   }
+
+//   @Post('upload')
+//   @UseInterceptors(FileInterceptor('file',{
+//     storage: diskStorage({
+//         destination: './uploads/profileimages',
+
+//     })
+//   }))
+//   uploadfile(@UploadedFile() file): Observable<object>{
+//       return of({imagePath: file.path});
+
+//   }
+
 
   @Get()
   findAll(){
@@ -39,10 +57,9 @@ export class RegistrationController {
     }
 
   @Put(':id')
-    @UsePipes(ValidationPipe)
-    update(
+      update(
         @Param('id') id: number,
-        @Body() userPost){
+        @Body() userPost: registration){
             return this.registrationService.update(id, userPost);
             
         }

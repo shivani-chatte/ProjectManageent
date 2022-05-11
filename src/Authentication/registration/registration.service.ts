@@ -1,5 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UploadedFile } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+//import { profile } from 'console';
+//import { from } from 'rxjs';
 import { department } from 'src/Entity/department.entity';
 import { registration } from 'src/Entity/registration.entity';
 import { user_type } from 'src/Entity/user_type.entity';
@@ -10,7 +12,8 @@ const md5 = require("apache-md5");
 
 @Injectable()
 export class RegistrationService {
-  constructor(
+  constructor(//private readonly registrationService: RegistrationService,
+
     @InjectRepository(registration)
     private readonly RegRepository: Repository<registration>,
     @InjectRepository(user_type)
@@ -82,11 +85,37 @@ export class RegistrationService {
   }
   
   //--------------------Update user----------------------//
-  async update(id: number, user: registration){
+  async update(id: number, user: registration
+    ){
     const users = await this.RegRepository.findOne(id, { relations: ["departments", "user_types"] });
     if(!users){
       throw new NotFoundException(`${id} is not exist`)
     }
+    
+    
+    // users['profile_img'] = user.profile_img;
+    // users['name'] = user.name;
+    // users['address'] = user.address;
+
+    // let data;
+    // const userup= await this.registrationService.findOneUser(id)
+    // console.log(user);
+    // let encrptpassword=userup.password;
+    // const isMatch=md5(data.password,encrptpassword) == encrptpassword;
+    // console.log(isMatch);
+    // if(!(userup && isMatch)){
+        
+    //     return ("Password doesnot match");
+    // }
+    
+    // if(data.newpassword !== data.confirmpassword){
+    //     return "confirmpassword not match with password";
+
+    // }
+  
+    // encrptpassword = md5(data.newpassword)
+    // data['newpassword']=encrptpassword
+    // return await this.RegRepository.update(id,{password:data.newpassword})
     return await this.RegRepository.update(id, user);
   }
 

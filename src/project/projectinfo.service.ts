@@ -2,7 +2,8 @@ import { Body, Injectable, NotFoundException, Param, Post, Put } from '@nestjs/c
 import { InjectRepository } from '@nestjs/typeorm';
 import { from, Observable } from 'rxjs';
 import { Projectinfo } from 'src/Entity/project_info.entity';
-import { DeleteResult, Repository } from 'typeorm';
+
+import { Connection, createQueryBuilder, DeleteResult, Repository } from 'typeorm';
 
 @Injectable()
 export class ProjectinfoService {
@@ -17,6 +18,8 @@ export class ProjectinfoService {
 
     createproject(post: Projectinfo) {
         return this.projectinforepository.save(post);
+
+
     }
    
     //<-------------------------------view one project-------------------------------->

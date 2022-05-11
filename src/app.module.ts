@@ -19,6 +19,16 @@ import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { MailController } from './mail/mail.controller';
 import { MailService } from './mail/mail.service';
+import { sub_task } from './Entity/sub_task.entity';
+import { task } from './Entity/task.entity';
+import { Projectinfo } from './Entity/project_info.entity';
+import { TaskController } from './task/task.controller';
+import { TaskService } from './task/task.service';
+import { UserProject } from './Entity/userproject.entity';
+import { AllocationController } from './allocation/allocation.controller';
+import { AllocationsService } from './allocation/allocations.service';
+
+
 
 
 @Module({
@@ -28,7 +38,7 @@ import { MailService } from './mail/mail.service';
     host: "localhost",
     port: 5432,
     username: "postgres",
-    password: "Sonu@123",
+    password: "vinaya2605",
     database: "ProjectManagement",
     synchronize: true,
     logging: false,
@@ -60,10 +70,8 @@ import { MailService } from './mail/mail.service';
       }),
       inject: [ConfigService]
     }),
-    TypeOrmModule.forFeature([registration, user_type, department]),
-  
-],
-  controllers: [AppController, RegistrationController, LoginController, ResetController, UpdatePasswordController, MailController],
-  providers: [AppService, RegistrationService, LoginService, ResetService, UpdatePasswordService, MailService],
+    TypeOrmModule.forFeature([registration, user_type, department,sub_task,task,Projectinfo,UserProject])],
+  controllers: [AppController, RegistrationController, LoginController, ResetController, UpdatePasswordController, MailController, TaskController,AllocationController],
+  providers: [AppService, RegistrationService, LoginService, ResetService, UpdatePasswordService, MailService, TaskService,AllocationsService],
 })
 export class AppModule {}

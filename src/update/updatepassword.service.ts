@@ -20,7 +20,8 @@ export class UpdatePasswordService {
     async update(id: number,data){
         console.log(data);
         const user= await this.registrationService.findOneUser(id)
-        console.log(user);let encrptpassword=user.password;
+        console.log(user);
+        let encrptpassword=user.password;
         const isMatch=md5(data.password,encrptpassword) == encrptpassword;
         console.log(isMatch);
         if(!(user && isMatch)){
