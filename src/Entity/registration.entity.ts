@@ -16,7 +16,12 @@ export class registration{
     @Column({default:''})
     @IsString()
     @IsNotEmpty()
-    name: String;
+    firstname: String;
+
+    @Column({default:''})
+    @IsString()
+    @IsNotEmpty()
+    lastname: String;
 
     @Column({default:''})
     @IsString()
@@ -32,6 +37,9 @@ export class registration{
 
     @Column({nullable:true})
     profile_img: String;
+
+    @Column({nullable:true})
+    profile_path: String;
 
     @Column()
     @IsNotEmpty()

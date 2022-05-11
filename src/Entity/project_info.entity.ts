@@ -1,5 +1,9 @@
 import { IsNotEmpty, IsString } from "class-validator";
+<<<<<<< Updated upstream
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, RelationId } from "typeorm";
+=======
+import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+>>>>>>> Stashed changes
 import { registration } from "./registration.entity";
 import { task } from "./task.entity";
 
@@ -12,6 +16,17 @@ export class Projectinfo{
     @IsNotEmpty()
     @Column({nullable:true})
     project_name:String;
+<<<<<<< Updated upstream
+=======
+
+     @IsString()
+     @Column({nullable:true})
+     technology:String;
+
+     @IsString()
+     @Column({nullable:true})
+     user:string;
+>>>>>>> Stashed changes
 
     @IsString()
     @IsNotEmpty()
@@ -33,6 +48,7 @@ export class Projectinfo{
      @Column({nullable:true})
      VenderName:string;
     
+<<<<<<< Updated upstream
      @Column({nullable:true})
      Email:string;
      
@@ -58,5 +74,18 @@ export class Projectinfo{
 
 
 
+=======
+     @Column({'default':0})
+     status:number;
+
+
+     @OneToMany(()=>task,(tasks)=>tasks.project_infos)
+     tasks:task[]
+
+    @ManyToMany(() => registration, (registrations) =>registrations.projectinfos)
+    @JoinTable({ name: 'UserProject' })
+    registrations: registration[]
+
+>>>>>>> Stashed changes
 }
     

@@ -7,28 +7,26 @@ import { registration } from './Entity/registration.entity';
 import { user_type } from './Entity/user_type.entity';
 import { LoginController } from './Authentication/login/login.controller';
 import { LoginService } from './Authentication/login/login.service';
-import { RegistrationController } from './Authentication/registration/registration.controller';
-import { RegistrationService } from './Authentication/registration/registration.service';
+import { RegistrationController } from './registration/registration.controller';
+import { RegistrationService } from './registration/registration.service';
 import { ResetController } from './Authentication/reset/reset.controller';
 import { ResetService } from './Authentication/reset/reset.service';
-import { UpdatePasswordController } from './update/updatepassword.controller';
-import { UpdatePasswordService } from './update/updatepassword.service';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
-import { MailController } from './mail/mail.controller';
-import { MailService } from './mail/mail.service';
-import { sub_task } from './Entity/sub_task.entity';
-import { task } from './Entity/task.entity';
+import { MailController } from './Authentication/mail/mail.controller';
+import { MailService } from './Authentication/mail/mail.service';
 import { Projectinfo } from './Entity/project_info.entity';
-import { TaskController } from './task/task.controller';
-import { TaskService } from './task/task.service';
-import { UserProject } from './Entity/userproject.entity';
+import { task } from './Entity/task.entity';
+import { subtask } from './Entity/sub_task.entity';
+import { collegeinfo } from './Entity/collegeinfo.entity';
+import { interns_college } from './Entity/interns_college.entity';
 import { AllocationController } from './allocation/allocation.controller';
 import { AllocationsService } from './allocation/allocations.service';
-
-
+import { UserProject } from './Entity/userproject';
+import { TaskController } from './task/task.controller';
+import { TaskService } from './task/task.service';
 
 
 @Module({
@@ -70,8 +68,8 @@ import { AllocationsService } from './allocation/allocations.service';
       }),
       inject: [ConfigService]
     }),
-    TypeOrmModule.forFeature([registration, user_type, department,sub_task,task,Projectinfo,UserProject])],
-  controllers: [AppController, RegistrationController, LoginController, ResetController, UpdatePasswordController, MailController, TaskController,AllocationController],
-  providers: [AppService, RegistrationService, LoginService, ResetService, UpdatePasswordService, MailService, TaskService,AllocationsService],
+    TypeOrmModule.forFeature([registration, user_type, department,subtask,task,Projectinfo,UserProject])],
+  controllers: [AppController, RegistrationController, LoginController, ResetController, MailController, TaskController,AllocationController],
+  providers: [AppService, RegistrationService, LoginService, ResetService,  MailService, TaskService,AllocationsService],
 })
 export class AppModule {}

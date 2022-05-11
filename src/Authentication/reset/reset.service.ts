@@ -4,7 +4,7 @@ import { from } from 'rxjs';
 import { registration } from 'src/Entity/registration.entity';
 import { Repository } from 'typeorm';
 import * as md5 from 'apache-md5';
-import { RegistrationService } from 'src/Authentication/registration/registration.service';
+import { RegistrationService } from 'src/registration/registration.service';
 var crypto = require('crypto');
 
 

@@ -3,8 +3,9 @@ import { IsString,IsInt, IsNotEmpty } from 'class-validator';
 import { task } from "./task.entity";
 
 
+
 @Entity()
-export class sub_task {
+export class subtask {
 
 @PrimaryGeneratedColumn()
 @IsInt()
@@ -14,25 +15,21 @@ id: number;
  @Column()
  @IsString()
  @IsNotEmpty()
- project_name: string;
-
-
- @Column()
- @IsString()
- @IsNotEmpty()
- task_name: string;
-
- @Column()
- @IsString()
- @IsNotEmpty()
- sub_task: string;
+ sub_task: String;
 
  @Column()
  @IsString()
  @IsNotEmpty()
  user_name: string;
 
- @ManyToOne(() => task ,tasks => tasks.sub_tasks)
+@Column({default:0})
+status:number;
+
+
+ @Column({nullable:true})
+ task_id:number;
+
+ @ManyToOne(() => task ,tasks => tasks.subtasks)
 @JoinColumn({name:"task_id",referencedColumnName:"id"})
 tasks:task[];
 }

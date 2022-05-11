@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable} from '@nestjs/common';
-import { RegistrationService } from 'src/Authentication/registration/registration.service';
+import { RegistrationService } from 'src/registration/registration.service';
 
 const md5 = require("apache-md5");
 
