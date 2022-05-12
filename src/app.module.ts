@@ -7,26 +7,43 @@ import { registration } from './Entity/registration.entity';
 import { user_type } from './Entity/user_type.entity';
 import { LoginController } from './Authentication/login/login.controller';
 import { LoginService } from './Authentication/login/login.service';
-import { RegistrationController } from './registration/registration.controller';
+
 import { RegistrationService } from './registration/registration.service';
 import { ResetController } from './Authentication/reset/reset.controller';
 import { ResetService } from './Authentication/reset/reset.service';
+//import { UpdatePasswordController } from './update/updatepassword.controller';
+import { UpdatePasswordService } from './update/updatepassword.service';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
-import { MailController } from './Authentication/mail/mail.controller';
-import { MailService } from './Authentication/mail/mail.service';
-import { Projectinfo } from './Entity/project_info.entity';
+// import { MailController } from './mail/mail.controller';
+// import { MailService } from './mail/mail.service';
+//import { sub_task } from './Entity/sub_task.entity';
 import { task } from './Entity/task.entity';
-import { subtask } from './Entity/sub_task.entity';
-import { collegeinfo } from './Entity/collegeinfo.entity';
-import { interns_college } from './Entity/interns_college.entity';
-import { AllocationController } from './allocation/allocation.controller';
-import { AllocationsService } from './allocation/allocations.service';
-import { UserProject } from './Entity/userproject';
+import { Projectinfo } from './Entity/project_info.entity';
 import { TaskController } from './task/task.controller';
 import { TaskService } from './task/task.service';
+import { UserProject } from './Entity/userproject.entity';
+import { AllocationController } from './allocation/allocation.controller';
+import { AllocationsService } from './allocation/allocations.service';
+import { TechProject } from './Entity/techproject.entity';
+import { TechController } from './tech/tech.controller';
+import { TechService } from './tech/tech.service';
+import { technology } from './Entity/technology.entity';
+import { RegistrationController } from './registration/registration.controller';
+import { subtask } from './Entity/sub_task.entity';
+import { MailService } from './Authentication/mail/mail.service';
+import { MailController } from './Authentication/mail/mail.controller';
+import { interns_college } from './Entity/interns_college.entity';
+import { collegeinfo } from './Entity/collegeinfo.entity';
+import { history } from './Entity/history.entity';
+import { ProjectinfoController } from './project/projectinfo.controller';
+import { ProjectinfoService } from './project/projectinfo.service';
+import { HistoryController } from './history/history.controller';
+import { HistoryService } from './history/history.service';
+
+
 
 
 @Module({
@@ -36,7 +53,7 @@ import { TaskService } from './task/task.service';
     host: "localhost",
     port: 5432,
     username: "postgres",
-    password: "vinaya2605",
+    password: "komaljadhav",
     database: "ProjectManagement",
     synchronize: true,
     logging: false,
@@ -68,8 +85,8 @@ import { TaskService } from './task/task.service';
       }),
       inject: [ConfigService]
     }),
-    TypeOrmModule.forFeature([registration, user_type, department,subtask,task,Projectinfo,UserProject])],
-  controllers: [AppController, RegistrationController, LoginController, ResetController, MailController, TaskController,AllocationController],
-  providers: [AppService, RegistrationService, LoginService, ResetService,  MailService, TaskService,AllocationsService],
+    TypeOrmModule.forFeature([registration, user_type, department,subtask,task,Projectinfo,UserProject,TechProject,technology,interns_college,collegeinfo,history])],
+  controllers: [AppController, RegistrationController, LoginController, ResetController,  MailController, TaskController,AllocationController,TechController,ProjectinfoController,HistoryController],
+  providers: [AppService, RegistrationService, LoginService, ResetService, UpdatePasswordService, MailService, TaskService,AllocationsService,TechService,ProjectinfoService,HistoryService],
 })
 export class AppModule {}

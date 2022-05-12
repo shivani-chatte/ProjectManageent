@@ -1,32 +1,26 @@
 import { IsNotEmpty, IsString } from "class-validator";
-<<<<<<< Updated upstream
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, RelationId } from "typeorm";
-=======
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
->>>>>>> Stashed changes
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { registration } from "./registration.entity";
 import { task } from "./task.entity";
+import { technology } from "./technology.entity";
 
 @Entity()
 export class Projectinfo{
     @PrimaryGeneratedColumn()
     id:Number;
 
-    @IsString()
-    @IsNotEmpty()
-    @Column({nullable:true})
-    project_name:String;
-<<<<<<< Updated upstream
-=======
+   // @IsString()
+    //@IsNotEmpty()
+    //@Column({nullable:true})
+    //project_name:String;
 
-     @IsString()
-     @Column({nullable:true})
-     technology:String;
+     //@IsString()
+     //@Column({nullable:true})
+    // technology:String;
 
-     @IsString()
-     @Column({nullable:true})
-     user:string;
->>>>>>> Stashed changes
+    // @IsString()
+    // @Column({nullable:true})
+     //user:string;
 
     @IsString()
     @IsNotEmpty()
@@ -48,7 +42,6 @@ export class Projectinfo{
      @Column({nullable:true})
      VenderName:string;
     
-<<<<<<< Updated upstream
      @Column({nullable:true})
      Email:string;
      
@@ -63,29 +56,38 @@ export class Projectinfo{
      
      @Column({nullable:true})
      ProjectScope:string;
+
+     @Column({nullable:true})
+     registrationId:number;
+
+     @Column({nullable:true})
+     technologyId:number;
     
 
      @OneToMany(()=>task, (tasks)=>tasks.project_infos)
      tasks:task[]
 
-    @ManyToMany(() => registration, (registrations) =>registrations.project_infos)
-    @JoinTable({ name:'UserProject'})
-    registrations: registration[]
+     @ManyToOne(()=>registration,(registrations)=>registrations.projectinfos)
+     @JoinColumn({name:"registrationId",referencedColumnName:"id"})
+     registrations:registration[]
+
+     @ManyToOne(()=>technology,(technologymasters)=>technologymasters.technologymasters)
+    @JoinColumn({name:"technologyId",referencedColumnName:"id"})
+    technologymasters:technology[]
 
 
 
-=======
-     @Column({'default':0})
-     status:number;
+    //@ManyToMany(() => registration, (registrations) =>registrations.project_infos)
+    //@JoinTable({ name:'UserProject'})
+    //registrations: registration[]
+
+   // @ManyToMany(() => technology_master, (technologymasters) =>technologymasters.projectinfos)
+    //@JoinTable({name:'TechProject'})
+    //technologymasters: technology_master[]
+
+    
 
 
-     @OneToMany(()=>task,(tasks)=>tasks.project_infos)
-     tasks:task[]
 
-    @ManyToMany(() => registration, (registrations) =>registrations.projectinfos)
-    @JoinTable({ name: 'UserProject' })
-    registrations: registration[]
-
->>>>>>> Stashed changes
 }
     

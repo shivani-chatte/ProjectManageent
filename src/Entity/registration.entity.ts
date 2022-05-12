@@ -1,9 +1,11 @@
 import { IsDate, IsEmail, IsIn, IsNotEmpty, IsNumber, IsString, MaxLength } from "class-validator";
-import {Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import { department } from "./department.entity";
 import { user_type } from "./user_type.entity";
 import * as bcrypt from 'bcrypt';
 import { Projectinfo } from "./project_info.entity";
+import { technology } from "./technology.entity";
+
 var crypto = require('crypto');
 
 
@@ -74,8 +76,19 @@ export class registration{
     @JoinColumn({name: "user_type"})
     user_types: user_type[];
 
-     @ManyToMany(() => Projectinfo, (project_infos) => project_infos.registrations)
-     project_infos: Projectinfo[]
+    // @ManyToMany(() => Projectinfo, (project_infos) => project_infos.registrations)
+     //project_infos: Projectinfo[]
+
+     @OneToMany(() => Projectinfo ,projectinfos => projectinfos.registrations)
+     projectinfos:Projectinfo[];
+
+     @OneToMany(()=> Projectinfo ,projectinfos => projectinfos.technologymasters)
+     technologymasters:technology[];
+
+   
+
+
+
     
 }
 

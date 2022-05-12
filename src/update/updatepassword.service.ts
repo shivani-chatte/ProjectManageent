@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { registration } from 'src/Entity/registration.entity';
-import { RegistrationService } from 'src/Authentication/registration/registration.service';
+import { RegistrationService } from 'src/registration/registration.service';
 import { Repository, UpdateResult } from 'typeorm';
 import * as md5 from 'apache-md5';
 

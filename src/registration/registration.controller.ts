@@ -1,19 +1,10 @@
-<<<<<<< Updated upstream:src/Authentication/registration/registration.controller.ts
-import { Body, Controller, Get, Param, Post, Put, UploadedFile, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
-import path from 'path';
-=======
 import { Body, Controller, Get, Param, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
->>>>>>> Stashed changes:src/registration/registration.controller.ts
 import { registration } from 'src/Entity/registration.entity';
 import { RegistrationService } from './registration.service';
-<<<<<<< Updated upstream:src/Authentication/registration/registration.controller.ts
 import {diskStorage} from 'multer';
 import { Observable, of } from 'rxjs';
 import { v4 as uuidv4} from 'uuid'; 
 import { platform } from 'os';
-=======
->>>>>>> Stashed changes:src/registration/registration.controller.ts
 
 @Controller('registration')
 export class RegistrationController {
@@ -66,23 +57,9 @@ export class RegistrationController {
   @Put(':id')
       update(
         @Param('id') id: number,
-<<<<<<< Updated upstream:src/Authentication/registration/registration.controller.ts
         @Body() userPost: registration){
             return this.registrationService.update(id, userPost);
             
-=======
-        @Body() userPost){
-            return this.registrationService.update(id, userPost);    
-        }
-
-
-  @Put('profile/:id')
-    @UsePipes(ValidationPipe)
-    updateprofile(
-        @Param('id') id: number,
-        @Body() userPost){
-            return this.registrationService.updateprofile(id, userPost);    
->>>>>>> Stashed changes:src/registration/registration.controller.ts
         }
 
   @Put('delete/:id')

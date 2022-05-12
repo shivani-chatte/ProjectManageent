@@ -14,13 +14,37 @@ export class ProjectinfoService {
         private projectinforepository: Repository<Projectinfo>
     ) { }
 
- //  <--------------------------addproject------------------------------------------->
+     async allocateproject(project) {
 
-    createproject(post: Projectinfo) {
-        return this.projectinforepository.save(post);
+        let user = project.registrationId
+        user.forEach(uelement => {
 
+            let tech = project.technologyId
+            tech.forEach(element =>{
+                let projectinfo = new Projectinfo()
+                projectinfo['ProjectName'] = project.ProjectName
+                projectinfo['ProjectTechnology'] = project.ProjectTechnology
+                projectinfo['ProjectResources'] = project.ProjectResources
+                projectinfo['VenderName'] = project.VenderName
+                projectinfo['Email'] = project.Email
+                projectinfo['MobileNo'] = project.MobileNo
+                projectinfo['CompanyName']=project.CompanyName
+                projectinfo['ProjectDuration']=project.ProjectDuration
+                projectinfo['ProjectScope']=project.ProjectScope
+                projectinfo['registrationId'] = uelement
+                projectinfo['technologyId'] = element 
 
-    }
+            
+                this.projectinforepository.save(projectinfo)
+            });
+            
+        });
+    
+        return user
+      }
+    
+    
+    
    
     //<-------------------------------view one project-------------------------------->
 

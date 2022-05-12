@@ -12,8 +12,8 @@ export class ProjectinfoController {
   //  <--------------------------addproject----------------------------->
 
     @Post()
-    createdata(@Body() post:Projectinfo){
-      return this.projectinfoservice.createproject(post);
+    createdata(@Body() post){
+      return this.projectinfoservice.allocateproject(post);
     }
 //<-------------------------------view project-------------------------------->
     @Get()

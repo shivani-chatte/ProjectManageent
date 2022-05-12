@@ -7,10 +7,10 @@ export class interns_college{
 @PrimaryGeneratedColumn()
 id:number;
 
-@Column({"nullable":true})
+@Column({nullable:true})
 user_id:number;
 
-@Column({"nullable":true})
+@Column({nullable:true})
 collegeid:number;
 
 @OneToOne(()=> user_type, user_type =>user_type.interns_colleges)

@@ -86,21 +86,14 @@ export class RegistrationService {
     }
     return users
   }
-<<<<<<< Updated upstream:src/Authentication/registration/registration.service.ts
   
   //--------------------Update user----------------------//
   async update(id: number, user: registration
     ){
-=======
-
-  //--------------------Update user by admin ----------------------//
-  async update(id: number , user){
->>>>>>> Stashed changes:src/registration/registration.service.ts
     const users = await this.RegRepository.findOne(id, { relations: ["departments", "user_types"] });
     if(!users){
       throw new NotFoundException(`${id} is not exist`)
     }
-<<<<<<< Updated upstream:src/Authentication/registration/registration.service.ts
     
     
     // users['profile_img'] = user.profile_img;
@@ -127,7 +120,6 @@ export class RegistrationService {
     // data['newpassword']=encrptpassword
     // return await this.RegRepository.update(id,{password:data.newpassword})
     return await this.RegRepository.update(id, user);
-=======
     let encrptpassword
     if(user.password){
       encrptpassword = md5(user.password);
@@ -135,7 +127,6 @@ export class RegistrationService {
   
     user['password'] = encrptpassword
     return await this.RegRepository.update(id, user)
->>>>>>> Stashed changes:src/registration/registration.service.ts
   }
   
   //--------------------Update user in profile ----------------------//

@@ -13,7 +13,7 @@ export class task{
     @Column()
     @IsString()
     @IsNotEmpty()
-    project_name:string;
+    task_name:string;
 
     @Column()
     @IsString()
