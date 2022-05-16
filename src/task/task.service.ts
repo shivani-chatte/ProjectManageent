@@ -17,7 +17,7 @@ export class TaskService {
     async Add(task:task,Projectinfo:Projectinfo){
         return await this.taskRepository.save(task);
       }
-    
+
       async getprojectById(id): Promise<Projectinfo>{
         let projectinfo=  await this.projectinfoRepository.findOne(id, {relations :['tasks']});
         if(!projectinfo){
@@ -48,8 +48,9 @@ export class TaskService {
       if(datas.status == 1){
         throw new NotFoundException(`${id} is not exist`)
       }
-     
-    return await this.taskRepository.update(id, data)
+       await this.taskRepository.update(id, data)
+       let msg = "Updated Succefully"
+       return msg
     }
     
     //--------------------------------delete task-------------------------------------------//

@@ -28,8 +28,9 @@ export class ResetService {
         let encrptedpassword
         encrptedpassword = md5(data.newpassword);
         data['newpassword'] = encrptedpassword
-        
-        return from(this.resetrepository.update(id ,{ password : data.newpassword}))
+        from(this.resetrepository.update(id ,{ password : data.newpassword}))
+        let msg = "Successful"
+        return msg
      }  
      
 }

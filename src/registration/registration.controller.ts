@@ -1,10 +1,6 @@
 import { Body, Controller, Get, Param, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
 import { registration } from 'src/Entity/registration.entity';
 import { RegistrationService } from './registration.service';
-import {diskStorage} from 'multer';
-import { Observable, of } from 'rxjs';
-import { v4 as uuidv4} from 'uuid'; 
-import { platform } from 'os';
 
 @Controller('registration')
 export class RegistrationController {
@@ -19,22 +15,15 @@ export class RegistrationController {
     return await this.registrationService.Add(registration,usertype,department);
   }
 
-//   @Post('upload')
-//   @UseInterceptors(FileInterceptor('file',{
-//     storage: diskStorage({
-//         destination: './uploads/profileimages',
-
-//     })
-//   }))
-//   uploadfile(@UploadedFile() file): Observable<object>{
-//       return of({imagePath: file.path});
-
-//   }
-
-
   @Get()
   findAll(){
       return this.registrationService.findUser();
+  }
+
+  @Get(':id')
+  @UsePipes(ValidationPipe)
+  findOne(@Param('id') id: number){
+      return this.registrationService.findOneUser(id);
   }
 
   @Get(':user_name')
@@ -47,19 +36,20 @@ export class RegistrationController {
       return this.registrationService.findbyEmail(email);
   }
 
-  @Get(':id')
-    @UsePipes(ValidationPipe)
-    findOne(@Param('id') id: number){
-        return this.registrationService.findOneUser(id);
-
-    }
-
   @Put(':id')
       update(
         @Param('id') id: number,
-        @Body() userPost: registration){
-            return this.registrationService.update(id, userPost);
-            
+        @Body() userPost){
+            return this.registrationService.update(id, userPost);    
+        }
+
+
+  @Put('profile/:id')
+    @UsePipes(ValidationPipe)
+    updateprofile(
+        @Param('id') id: number,
+        @Body() userPost){
+            return this.registrationService.updateprofile(id, userPost);    
         }
 
   @Put('delete/:id')

@@ -1,10 +1,12 @@
 import { IsDate, IsEmail, IsIn, IsNotEmpty, IsNumber, IsString, MaxLength } from "class-validator";
 import {Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import { department } from "./department.entity";
+import { holiday } from "./holiday.entity";
+import { projectassign } from "./projectassign.entity";
+import { sub_task } from "./sub_task.entity ";
 import { user_type } from "./user_type.entity";
-import * as bcrypt from 'bcrypt';
-import { Projectinfo } from "./project_info.entity";
-import { technology } from "./technology.entity";
+import { history } from "./history.entity";
+
 
 var crypto = require('crypto');
 
@@ -76,20 +78,26 @@ export class registration{
     @JoinColumn({name: "user_type"})
     user_types: user_type[];
 
-    // @ManyToMany(() => Projectinfo, (project_infos) => project_infos.registrations)
-     //project_infos: Projectinfo[]
+    @OneToMany(() => holiday , holidays => holidays.registrations)
+    holidays: holiday[];
 
-     @OneToMany(() => Projectinfo ,projectinfos => projectinfos.registrations)
-     projectinfos:Projectinfo[];
+    @OneToMany(() => projectassign ,projectassigns => projectassigns.registrations)
+    projectassigns:projectassign[];
 
-     @OneToMany(()=> Projectinfo ,projectinfos => projectinfos.technologymasters)
-     technologymasters:technology[];
+    @ManyToOne(() => sub_task, sub_tasks=> sub_tasks.registrations)
+    sub_tasks:sub_task[];
 
-   
+    @OneToMany(() => history, historys  => historys.registrations)
+    historys: history[];
+
+    @OneToMany(() => history , his  => his.regs)
+    his: history[];
+
+    @OneToMany(() => history , His  => His.Reg)
+    His: history[]; 
 
 
 
-    
 }
 
 

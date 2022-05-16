@@ -12,7 +12,8 @@ export class LoginService {
       
        const user = await this.RegistrationService.findbyUserName(data.user_name);
        if(!user){
-        throw new HttpException('Invalid username', HttpStatus.NOT_FOUND);
+        let error =  new HttpException('Invalid username', HttpStatus.NOT_FOUND);
+        return error
       }
        const encrptpassword = user.password;
        
@@ -20,8 +21,8 @@ export class LoginService {
         
         if (user && isMatch) {
            const { password, ...result} = user;
-           const status = 201
-          return (status)
+           const msg = "login successful"
+          return (msg)
         }
         else{
           throw new HttpException('Invalid Password', HttpStatus.NOT_FOUND);

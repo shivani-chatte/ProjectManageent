@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { Projectinfo } from 'src/Entity/project_info.entity';
+//import { UserProject } from 'src/Entity/userproject.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { ProjectinfoService } from './projectinfo.service';
 
@@ -8,23 +9,22 @@ import { ProjectinfoService } from './projectinfo.service';
 export class ProjectinfoController {
     constructor( private readonly projectinfoservice:ProjectinfoService){}
 
-    @UsePipes(new ValidationPipe)
-  //  <--------------------------addproject----------------------------->
-
+  //  <--------------------------add project----------------------------->
     @Post()
-    createdata(@Body() post){
-      return this.projectinfoservice.allocateproject(post);
+    createReport(@Body() report){
+      return this.projectinfoservice.createreport(report);
     }
+
 //<-------------------------------view project-------------------------------->
     @Get()
     find(@Body()post:Projectinfo){
         return this.projectinfoservice.findAllPosts();
     }
     //<-------------------------------view one project------------------------------>
-    @Get(':id')
-    findOne(@Param('id',ParseIntPipe) id:number){
-        return this.projectinfoservice.findOnePosts(id)
-            
+
+    @Get('/:id')
+    async getproById(@Param('id') id: number){
+      return await this.projectinfoservice.getprojectbyId(id);
     }
     //<---------------------------------edit project---------------------------------->
     @Put(':id')
@@ -42,7 +42,12 @@ export class ProjectinfoController {
      return this.projectinfoservice.deleteproject(id);   
     }
  
-   
+    @Get('result/:id')
+    get(
+        @Param('id') id: number
+    ){
+        return this.projectinfoservice.select(id);
+    }
 
     
 }

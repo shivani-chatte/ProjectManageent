@@ -29,7 +29,7 @@ status:number;
  @Column({nullable:true})
  task_id:number;
 
- @ManyToOne(() => task ,tasks => tasks.subtasks)
+ @ManyToOne(() => task ,tasks => tasks.sub_tasks)
 @JoinColumn({name:"task_id",referencedColumnName:"id"})
 tasks:task[];
 }

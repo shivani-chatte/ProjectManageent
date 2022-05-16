@@ -17,19 +17,18 @@ export class MailService {
     async sendMail(data) {
         const user = await this.RegistrationService.findbyEmail(data.email);
         if (!user) {
-            throw new BadRequestException(`${data.email} is not valid email`)
-
-        }
-        else {
+            let error=  new BadRequestException(`${data.email} is not valid email`)
+            return error
+        } else {
             var currentDate = new Date();
-            var encryptedexpiryDate = md5(currentDate)
+            var encryptedDate = md5(currentDate)
             await this.mailerService.sendMail({
                 to: data.email,
                 template: '/email',
                 context: {
                     name: data.name,
-                    link: 'https://localhost:4200/#/reset/' + encryptedexpiryDate + '/' + user.id,
-                }
+                    link : 'https://localhost:4200/#/reset/'+encryptedDate+'/'+user.id
+                } 
             })
                 .then(() => { })
                 .catch(() => { });
