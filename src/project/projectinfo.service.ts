@@ -23,7 +23,7 @@ export class ProjectinfoService {
 
  //  <--------------------------add project with multiple user and multiple technology------------------------------------------->
  async createreport(post){
-                 let projectinfo = new Projectinfo()
+    let projectinfo = new Projectinfo()
                  projectinfo['ProjectName'] = post.ProjectName
                  projectinfo['ProjectTechnology'] = post.ProjectTechnology
                  projectinfo['ProjectResources'] = post.ProjectResources
@@ -33,7 +33,7 @@ export class ProjectinfoService {
                  projectinfo['CompanyName']=post.CompanyName
                  projectinfo['ProjectDuration']=post.ProjectDuration
                  projectinfo['ProjectScope']=post.ProjectScope
-    let project=await this.projectinforepository.save(post)
+    let project = await this.projectinforepository.save(post)
     post.registrationId.forEach(async element => {
         let projectInfo=new projectassign()
         projectInfo['projectinfoId']=project.id;
@@ -48,25 +48,33 @@ export class ProjectinfoService {
         let techProj=await this.techologyassignRepository.save(projectInfo);
         
     });
-    return project
+    let msg = "Project added successfully"
+    return msg
 }
 
 
      //<-------------------------------view project----------------------------------->
 
     async findAllPosts() {
-        const found= await this.projectinforepository.find({relations:['projectassigns','technologyassigns']});
-        // return from(this.projectinforepository.find());
+
+        const found = await createQueryBuilder("project") 
+                        .leftJoinAndSelect("project.projectassigns",'pa')
+                        .leftJoinAndSelect("project.technologyassigns",'ta')
+                        .where({status:0})
+                        .getMany()
         return found
         
     }
 
-        //<-------------------------------view one project-------------------------------->
+    //<-------------------------------view one project-------------------------------->
 
     async getprojectbyId(id:number):Promise<Projectinfo>{
         const found= await this.projectinforepository.findOne(id,{relations:['projectassigns','technologyassigns']});
         if(!found){
          throw new NotFoundException('data not found');
+        }
+        if(found.status == 0){
+            throw new NotFoundException('data not found');
         }
         return found;
      }
@@ -79,7 +87,7 @@ export class ProjectinfoService {
         }
         from(this.projectinforepository.update(id, post))
         let msg = "Updated Succefully"
-          return msg
+        return msg
     }
     
        //<-------------------------------delete project----------------------------------->

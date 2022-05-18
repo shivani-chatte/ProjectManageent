@@ -15,6 +15,10 @@ export class LoginService {
         let error =  new HttpException('Invalid username', HttpStatus.NOT_FOUND);
         return error
       }
+      if(user.status == 0){
+        let error =  new HttpException('Invalid username', HttpStatus.NOT_FOUND);
+        return error
+      }
        const encrptpassword = user.password;
        
        const isMatch = md5(data.password, encrptpassword) == encrptpassword;

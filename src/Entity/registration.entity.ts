@@ -6,6 +6,7 @@ import { projectassign } from "./projectassign.entity";
 import { sub_task } from "./sub_task.entity ";
 import { user_type } from "./user_type.entity";
 import { history } from "./history.entity";
+import { taskassign } from "./taskassign.entity";
 
 
 var crypto = require('crypto');
@@ -95,7 +96,9 @@ export class registration{
 
     @OneToMany(() => history , His  => His.Reg)
     His: history[]; 
-
+    
+    @OneToMany(() => taskassign , taskassigns  => taskassigns.registrations)
+    taskassigns: taskassign[];
 
 
 }

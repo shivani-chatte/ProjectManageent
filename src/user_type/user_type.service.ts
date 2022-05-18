@@ -11,6 +11,6 @@ export class UserTypeService {
         private readonly usertypeRepository: Repository<user_type>){}
 
     findall(){
-        return this.usertypeRepository.find();
+        return this.usertypeRepository.find({where : {status:0}});
     }
 }

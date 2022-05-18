@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { department } from 'src/Entity/department.entity';
 import { registration } from 'src/Entity/registration.entity';
 import { user_type } from 'src/Entity/user_type.entity';
-import { Repository } from 'typeorm';
+import { createQueryBuilder, Repository } from 'typeorm';
 //import * as md5 from 'apache-md5'
 const md5 = require("apache-md5");
 import mime from 'mime';
@@ -68,13 +68,19 @@ export class RegistrationService {
     }
     registration['password'] = encrptpassword
 
-    return await this.RegRepository.save(registration)
+    await this.RegRepository.save(registration)
+    let msg = "Added successfully"
+    return msg
 
   }
 
   //---------------------Get user--------------------//
   async findUser(){
-    const users = await this.RegRepository.find({ relations: ["departments", "user_types"] });
+    const users = await createQueryBuilder("registration") 
+                        .leftJoinAndSelect("registration.departments",'d')
+                        .leftJoinAndSelect("registration.user_types",'ut')
+                        .where({status:0})
+                        .getMany()
     return users
   }
 
@@ -82,6 +88,9 @@ export class RegistrationService {
   async findOneUser(id){
     const users = await this.RegRepository.findOne(id, { relations: ["departments", "user_types"] });
     if(!users){
+      throw new NotFoundException(`${id} is not exist`)
+    }
+    if(users.status==1){
       throw new NotFoundException(`${id} is not exist`)
     }
     return users
@@ -94,45 +103,28 @@ export class RegistrationService {
     if(!users){
       throw new NotFoundException(`${id} is not exist`)
     }
-    
-    
-    // users['profile_img'] = user.profile_img;
-    // users['name'] = user.name;
-    // users['address'] = user.address;
+    if(users.status==1){
+      throw new NotFoundException(`${id} is not exist`)
+    }
 
-    // let data;
-    // const userup= await this.registrationService.findOneUser(id)
-    // console.log(user);
-    // let encrptpassword=userup.password;
-    // const isMatch=md5(data.password,encrptpassword) == encrptpassword;
-    // console.log(isMatch);
-    // if(!(userup && isMatch)){
-        
-    //     return ("Password doesnot match");
-    // }
-    
-    // if(data.newpassword !== data.confirmpassword){
-    //     return "confirmpassword not match with password";
-
-    // }
-  
-    // encrptpassword = md5(data.newpassword)
-    // data['newpassword']=encrptpassword
-    // return await this.RegRepository.update(id,{password:data.newpassword})
-    return await this.RegRepository.update(id, user);
     let encrptpassword
     if(user.password){
       encrptpassword = md5(user.password);
     }
-  
     user['password'] = encrptpassword
-    return await this.RegRepository.update(id, user)
+    
+    await this.RegRepository.update(id, user)
+    let msg = "Updated Successfully"
+    return msg
   }
   
   //--------------------Update user in profile ----------------------//
   async updateprofile(id: number, user){
     const users = await this.RegRepository.findOne(id, { relations: ["departments", "user_types"] });
     if(!users){
+      throw new NotFoundException(`${id} is not exist`)
+    }
+    if(users.status==1){
       throw new NotFoundException(`${id} is not exist`)
     }
     let imgProfilePath = ''
@@ -177,7 +169,7 @@ export class RegistrationService {
         encrptpassword = md5(user.newpassword)
         user['password'] = encrptpassword
         
-        return await this.RegRepository.update(id,
+        await this.RegRepository.update(id,
           {firstname : user.firstname , 
             lastname : user.lastname , 
             address : user.address ,
@@ -185,9 +177,10 @@ export class RegistrationService {
             email : user.email,
             date_of_birth : user.date_of_birth,
             password : user.password,
-            //profile_img : user.profile_img,
             profile_path : user.profile_path
           });
+        let msg = "Updated Successfully"
+        return msg
      }
   
 

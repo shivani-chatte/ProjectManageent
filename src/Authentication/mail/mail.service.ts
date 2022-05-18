@@ -19,7 +19,12 @@ export class MailService {
         if (!user) {
             let error=  new BadRequestException(`${data.email} is not valid email`)
             return error
-        } else {
+        } 
+        if (user.status == 0) {
+            let error=  new BadRequestException(`${data.email} is not valid email`)
+            return error
+        }
+        else {
             var currentDate = new Date();
             var encryptedDate = md5(currentDate)
             await this.mailerService.sendMail({

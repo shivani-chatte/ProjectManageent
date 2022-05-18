@@ -38,6 +38,7 @@ import { HolidayController } from './holiday/holiday.controller';
 import { HolidayService } from './holiday/holiday.service';
 import { interns_college } from './Entity/interns_college.entity';
 import { collegeinfo } from './Entity/collegeinfo.entity';
+import { taskassign } from './Entity/taskassign.entity';
 
 
 
@@ -49,7 +50,7 @@ import { collegeinfo } from './Entity/collegeinfo.entity';
     host: "localhost",
     port: 5432,
     username: "postgres",
-    password: "vinaya2605",
+    password: "Sonu@123",
     database: "ProjectManagement",
     synchronize: true,
     logging: false,
@@ -81,7 +82,7 @@ import { collegeinfo } from './Entity/collegeinfo.entity';
       }),
       inject: [ConfigService]
     }),
-    TypeOrmModule.forFeature([registration, user_type, department,sub_task,task,Projectinfo,technology,AssignProject,projectassign,technologyassign,history, holiday, interns_college, collegeinfo])],
+    TypeOrmModule.forFeature([registration, user_type, department,sub_task,task,taskassign,Projectinfo,technologyassign,technology,projectassign,technologyassign,history, holiday, interns_college, collegeinfo])],
   controllers: [AppController, RegistrationController, LoginController, ResetController, MailController, TaskController,ProjectinfoController,SubTaskController, UserTypeController, HolidayController],
   providers: [AppService, RegistrationService, LoginService, ResetService, MailService, TaskService,ProjectinfoService,SubTaskService, UserTypeService, HolidayService],
 })

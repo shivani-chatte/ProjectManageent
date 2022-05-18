@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Projectinfo } from 'src/Entity/project_info.entity';
 import { task } from 'src/Entity/task.entity';
+import { taskassign } from 'src/Entity/taskassign.entity';
 import { createQueryBuilder, In, Repository } from 'typeorm';
 
 @Injectable()
@@ -10,12 +11,23 @@ export class TaskService {
         @InjectRepository(task)
         private readonly taskRepository: Repository<task>,
         @InjectRepository( Projectinfo)
-        private readonly  projectinfoRepository: Repository< Projectinfo>){}
+        private readonly  projectinfoRepository: Repository< Projectinfo>,
+        @InjectRepository(taskassign)
+        private taskassignRepository: Repository<taskassign>){}
 
        //----------------------------------add task---------------------------------------// 
 
-    async Add(task:task,Projectinfo:Projectinfo){
-        return await this.taskRepository.save(task);
+       async Add(task,Projectinfo:Projectinfo){
+        let tasks = await this.taskRepository.save(task);
+
+        task.registrationId.forEach(async element => {
+          let projectInfo=new taskassign()
+          projectInfo['taskId']=task.id;
+          projectInfo['registrationId']=element
+           let userProj = await this.taskassignRepository.save(projectInfo);
+        });
+        let msg = "Added successfully"
+        return msg
       }
 
       async getprojectById(id): Promise<Projectinfo>{
@@ -26,12 +38,15 @@ export class TaskService {
         return projectinfo;
       }
 
+
       //--------------------------------find all task-------------------------------------------//
         async findall(){
-        await createQueryBuilder("task").where('"status" = :status', { status:0}).getMany()
-
-        const task = await this.taskRepository.find({ relations: ["project_infos"] });
-        return task
+            const task = await createQueryBuilder("task") 
+                                .leftJoinAndSelect("task.project_infos",'pi')
+                                .where({status:0})
+                                .getMany()
+          return task
+          
      }
 
       //-------------------------------find task by project_id-------------------------------------------//
@@ -65,7 +80,14 @@ export class TaskService {
         ...(tasks.status && { status: 1 })});
     }
 
-  
+    async getResource(id){
+      return await this.projectinfoRepository
+      .createQueryBuilder('p')
+      .leftJoinAndSelect('p.projectassigns','pa')
+      .leftJoinAndSelect('pa.registrations','r')
+      .where({ id })
+      .getOne();
+    }
     
     
 }

@@ -23,7 +23,7 @@ export class DepartmentService {
    
    }
    findAllPosts(){
-       return from(this.deptrepository.find());
+       return from(this.deptrepository.find({where : {status :0}}));
    }
    updatedept(id:number,post:department){
          
