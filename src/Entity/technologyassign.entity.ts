@@ -7,18 +7,18 @@ export class technologyassign{
 @PrimaryGeneratedColumn()
 id:number;
 
-@Column({nullable:true})
-projectId:number;
+@Column()
+projectinfoId:number;
 
-@Column({nullable:true})
-technologyId:number;
+@Column()
+ProjectTechnology:number;
 
 @ManyToOne(() => Projectinfo ,projectinfos => projectinfos.technologyassigns)
-@JoinColumn({name:"projectId",referencedColumnName:"id"})
+@JoinColumn({name:"projectinfoId",referencedColumnName:"id"})
 projectinfos:Projectinfo[];
 
 @ManyToOne(()=> technology,(technologys)=>technologys.technologyassigns)
-@JoinColumn({name:"technologyId",referencedColumnName:"id"})
+@JoinColumn({name:"ProjectTechnology",referencedColumnName:"id"})
 technologys:technology[]
 
 }

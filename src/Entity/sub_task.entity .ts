@@ -1,8 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { IsString,IsInt, IsNotEmpty } from 'class-validator';
 import { task } from "./task.entity";
 import { history } from "./history.entity";
 import { registration } from "./registration.entity";
+import { category } from "./category.entity";
+import { priority } from "./priority.entity";
 
 
 
@@ -10,44 +12,33 @@ import { registration } from "./registration.entity";
 export class sub_task {
 
 @PrimaryGeneratedColumn()
-//@IsInt()
-//@IsNotEmpty()
 id: number;
 
  @Column()
- //@IsString()
- //@IsNotEmpty()
  sub_task: String;
-
-//  @Column({})
-//  @IsString()
-//  @IsNotEmpty()
-//  user_name: string;
 
 @Column({default:0})
 status:number;
 
 @Column({nullable:true})
-// @IsString()
-// @IsNotEmpty()
  description: string;
 
  @Column({nullable:true})
  teamleadername: string;
 
  @Column({nullable:true})
- //@IsString()
- //@IsNotEmpty()
+ priority: string;
+
+ @Column({nullable:true})
+ category: string;
+
+ @Column({nullable:true})
  start_date:Date;
 
  @Column({nullable:true})
-//@IsString()
- //@IsNotEmpty()
  end_date:Date;
 
  @Column({nullable:true})
- //@IsString()
- //@IsNotEmpty()
  duration: number;
 
  @Column({nullable:true})
@@ -69,5 +60,13 @@ registrations:registration[];
 
 @OneToMany(() => history , historys  => historys .sub_tasks)
 historys:history[];
+
+@ManyToOne(() => category , categorys => categorys.subtasks)
+@JoinColumn({name: "category"})
+categorys: category[];
+
+@OneToOne(()=> priority, prioritys =>prioritys.subtasks)
+@JoinColumn({name:"priority",referencedColumnName:"id"})
+prioritys:priority[];
 
 }

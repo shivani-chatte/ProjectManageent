@@ -1,5 +1,7 @@
 import { IsInt, IsNotEmpty, IsString } from "class-validator";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { category } from "./category.entity";
+import { priority } from "./priority.entity";
 import { Projectinfo } from "./project_info.entity";
 import { sub_task } from "./sub_task.entity ";
 import { taskassign } from "./taskassign.entity";
@@ -10,40 +12,26 @@ export class task{
     @PrimaryGeneratedColumn()
     id:number;
 
-    @Column()
-    @IsString()
-    @IsNotEmpty()
-    task_name:string;
-
-    @Column()
-    @IsString()
-    @IsNotEmpty()
-    from_date:Date;
-
-    @Column()
-    @IsString()
-    to_date:Date;
+    @Column({nullable:true})
+    TaskName:string;
 
     @Column()
     project_id:number;
 
     @Column({nullable:true})
-    teamleadername: string;
+    Priority: string;
 
     @Column({nullable:true})
-    priority: string;
+    Category: string;
 
     @Column({nullable:true})
-    category: string;
+    TaskDescription: string;
 
     @Column({nullable:true})
-    description: string;
-
-    @Column({nullable:true})
-    duration: number;
+    TaskDuration: number;
 
     @Column({default:0})
-    status:number;
+    Status:number;
 
     @OneToMany(() => sub_task,sub_tasks => sub_tasks.tasks)
     sub_tasks: sub_task[];
@@ -54,6 +42,14 @@ export class task{
 
     @OneToMany(() => taskassign , taskassigns  => taskassigns.tasks)
     taskassigns: taskassign[];
+    @ManyToOne(() => category , categorys => categorys.tasks)
+    @JoinColumn({name: "Category"})
+    categorys: category[];
+
+    @OneToOne(()=> priority, prioritys =>prioritys.tasks)
+    @JoinColumn({name:"Priority",referencedColumnName:"id"})
+    prioritys:priority[];
+
 
    
 }

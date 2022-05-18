@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString } from "class-validator";
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, RelationId } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, RelationId } from "typeorm";
 import {projectassign } from "./projectassign.entity";
 import { registration } from "./registration.entity";
 import { task } from "./task.entity";
@@ -9,7 +9,7 @@ import { technologyassign } from "./technologyassign.entity";
 @Entity()
 export class Projectinfo{
     @PrimaryGeneratedColumn()
-    id:Number;
+    id:number;
 
     @Column({nullable:true})
     ProjectName:string;
@@ -27,11 +27,10 @@ export class Projectinfo{
      @Column({nullable:true})
      MobileNo:number;
 
-     @Column({nullable:true})
+     @CreateDateColumn({nullable:true})
      CreatedAt:Date;
 
-     @Column({nullable:true})
-     EndAt:Date;
+
      
      @Column({nullable:true})
      CompanyName:string;
@@ -44,13 +43,6 @@ export class Projectinfo{
      
      @Column({nullable:true})
      ProjectScope:string;
-
-     @Column({nullable:true})
-     registrationId:number;
-
-     @Column({nullable:true})
-     technologyId:number;
-    
 
      @OneToMany(()=>task, (tasks)=>tasks.project_infos)
      tasks:task[]

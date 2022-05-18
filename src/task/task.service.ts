@@ -60,7 +60,7 @@ export class TaskService {
      async update(id: number, data: task){
     
       const datas = await this.taskRepository.findOne(id, { relations: ["project_infos"] });
-      if(datas.status == 1){
+      if(datas.Status == 1){
         throw new NotFoundException(`${id} is not exist`)
       }
        await this.taskRepository.update(id, data)
@@ -75,9 +75,9 @@ export class TaskService {
       if(!tasks){
         throw new NotFoundException(`${id} is not exist`)
       }
-      tasks.status = 1
+      tasks.Status = 1
       return await this.taskRepository.update(id, {
-        ...(tasks.status && { status: 1 })});
+        ...(tasks.Status && { Status: 1 })});
     }
 
     async getResource(id){

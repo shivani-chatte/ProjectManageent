@@ -25,26 +25,30 @@ export class ProjectinfoService {
  async createreport(post){
     let projectinfo = new Projectinfo()
                  projectinfo['ProjectName'] = post.ProjectName
-                 projectinfo['ProjectTechnology'] = post.ProjectTechnology
-                 projectinfo['ProjectResources'] = post.ProjectResources
+                //  projectinfo['ProjectTechnology'] = post.ProjectTechnology
+                //  projectinfo['ProjectResources'] = post.ProjectResources
                  projectinfo['VenderName'] = post.VenderName
                  projectinfo['Email'] = post.Email
                  projectinfo['MobileNo'] = post.MobileNo
                  projectinfo['CompanyName']=post.CompanyName
-                 projectinfo['ProjectDuration']=post.ProjectDuration
+                 projectinfo['ProjectDurationMonth']=post.ProjectDurationMonth
+                 projectinfo['ProjectDurationDays']=post.ProjectDurationDays
                  projectinfo['ProjectScope']=post.ProjectScope
-    let project = await this.projectinforepository.save(post)
-    post.registrationId.forEach(async element => {
+                let project=await this.projectinforepository.save(post)
+    
+      post.ProjectResources.forEach(async element => {
+        console.log(project.id)
         let projectInfo=new projectassign()
         projectInfo['projectinfoId']=project.id;
-        projectInfo['registrationId']=element
+        projectInfo['ProjectResources']=element
         let userProj=await this.projectassignRepository.save(projectInfo);
         
     });
-    post.technologyId.forEach(async element => {
+    post.ProjectTechnology.forEach(async element => {
+        console.log(element)
         let projectInfo=new technologyassign()
         projectInfo['projectinfoId']=project.id;
-        projectInfo['technologyId']=element
+        projectInfo['ProjectTechnology']=element
         let techProj=await this.techologyassignRepository.save(projectInfo);
         
     });

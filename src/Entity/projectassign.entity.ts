@@ -12,7 +12,7 @@ export class projectassign{
     projectinfoId:number;
 
     @Column()
-    registrationId:number;
+    ProjectResources:number;
 
 
 
@@ -21,7 +21,7 @@ export class projectassign{
     projectinfos:Projectinfo[]
 
     @ManyToOne(()=>registration,(registrations)=>registrations.projectassigns)
-    @JoinColumn({name:"registrationId",referencedColumnName:"id"})
+    @JoinColumn({name:"ProjectResources",referencedColumnName:"id"})
    registrations:registration[]
 
 

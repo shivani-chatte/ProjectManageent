@@ -40,6 +40,9 @@ import { interns_college } from './Entity/interns_college.entity';
 import { collegeinfo } from './Entity/collegeinfo.entity';
 import { taskassign } from './Entity/taskassign.entity';
 
+import { category } from './Entity/category.entity';
+import { priority } from './Entity/priority.entity';
+
 
 
 
@@ -50,7 +53,7 @@ import { taskassign } from './Entity/taskassign.entity';
     host: "localhost",
     port: 5432,
     username: "postgres",
-    password: "Sonu@123",
+    password: "vinaya2605",
     database: "ProjectManagement",
     synchronize: true,
     logging: false,
@@ -82,8 +85,8 @@ import { taskassign } from './Entity/taskassign.entity';
       }),
       inject: [ConfigService]
     }),
-    TypeOrmModule.forFeature([registration, user_type, department,sub_task,task,taskassign,Projectinfo,technologyassign,technology,projectassign,technologyassign,history, holiday, interns_college, collegeinfo])],
+    TypeOrmModule.forFeature([registration, user_type, department,sub_task,task,Projectinfo,technology,AssignProject,projectassign,technologyassign,history, holiday, interns_college, collegeinfo,category,priority,taskassign])],
   controllers: [AppController, RegistrationController, LoginController, ResetController, MailController, TaskController,ProjectinfoController,SubTaskController, UserTypeController, HolidayController],
-  providers: [AppService, RegistrationService, LoginService, ResetService, MailService, TaskService,ProjectinfoService,SubTaskService, UserTypeService, HolidayService],
+  providers: [AppService,RegistrationService, LoginService, ResetService, MailService, TaskService,ProjectinfoService,SubTaskService, UserTypeService, HolidayService],
 })
 export class AppModule {}
