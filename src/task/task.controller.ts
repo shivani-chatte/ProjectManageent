@@ -46,7 +46,12 @@ export class TaskController {
                   return this.taskService.delete(id);
                   
               }
-            
+
+        
+    @Get('project/:id')
+    getResource(@Param('id') id: number,){
+        return this.taskService.getResource(id);
+    }      
 }
       
         
