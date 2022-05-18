@@ -7,10 +7,10 @@ export class technologyassign{
 @PrimaryGeneratedColumn()
 id:number;
 
-@Column()
+@Column({nullable:true})
 projectinfoId:number;
 
-@Column()
+@Column({nullable:true})
 ProjectTechnology:number;
 
 @ManyToOne(() => Projectinfo ,projectinfos => projectinfos.technologyassigns)

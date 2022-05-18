@@ -5,6 +5,7 @@ import { history } from "./history.entity";
 import { registration } from "./registration.entity";
 import { category } from "./category.entity";
 import { priority } from "./priority.entity";
+import { subtaskassign } from "./subtaskassign.entity";
 
 
 
@@ -54,11 +55,11 @@ status:number;
 @JoinColumn({name:"task_id",referencedColumnName:"id"})
 tasks:task[];
 
-@ManyToOne(() => registration, registrations=> registrations.sub_tasks)
+@ManyToOne(() => registration, registrations=> registrations.subtasks)
 @JoinColumn({name:"user_id",referencedColumnName:"id"})
 registrations:registration[];
 
-@OneToMany(() => history , historys  => historys .sub_tasks)
+@OneToMany(() => history , historys  => historys.sub_tasks)
 historys:history[];
 
 @ManyToOne(() => category , categorys => categorys.subtasks)
@@ -69,4 +70,6 @@ categorys: category[];
 @JoinColumn({name:"priority",referencedColumnName:"id"})
 prioritys:priority[];
 
+@OneToMany(() => subtaskassign,subtaskassigns => subtaskassigns.subtasks)
+subtaskassigns: subtaskassign[];
 }

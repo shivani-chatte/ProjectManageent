@@ -42,6 +42,7 @@ import { taskassign } from './Entity/taskassign.entity';
 
 import { category } from './Entity/category.entity';
 import { priority } from './Entity/priority.entity';
+import { subtaskassign } from './Entity/subtaskassign.entity';
 
 
 
@@ -53,7 +54,7 @@ import { priority } from './Entity/priority.entity';
     host: "localhost",
     port: 5432,
     username: "postgres",
-    password: "vinaya2605",
+    password: "komaljadhav",
     database: "ProjectManagement",
     synchronize: true,
     logging: false,
@@ -85,7 +86,7 @@ import { priority } from './Entity/priority.entity';
       }),
       inject: [ConfigService]
     }),
-    TypeOrmModule.forFeature([registration, user_type, department,sub_task,task,Projectinfo,technology,AssignProject,projectassign,technologyassign,history, holiday, interns_college, collegeinfo,category,priority,taskassign])],
+    TypeOrmModule.forFeature([registration, user_type, department,sub_task,task,Projectinfo,technology,AssignProject,projectassign,technologyassign,history, holiday, interns_college, collegeinfo,category,priority,taskassign,subtaskassign])],
   controllers: [AppController, RegistrationController, LoginController, ResetController, MailController, TaskController,ProjectinfoController,SubTaskController, UserTypeController, HolidayController],
   providers: [AppService,RegistrationService, LoginService, ResetService, MailService, TaskService,ProjectinfoService,SubTaskService, UserTypeService, HolidayService],
 })

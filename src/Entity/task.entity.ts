@@ -15,7 +15,7 @@ export class task{
     @Column({nullable:true})
     TaskName:string;
 
-    @Column()
+    @Column({nullable:true})
     project_id:number;
 
     @Column({nullable:true})
@@ -36,20 +36,31 @@ export class task{
     @OneToMany(() => sub_task,sub_tasks => sub_tasks.tasks)
     sub_tasks: sub_task[];
 
-    @ManyToOne(() => Projectinfo,project_infos => project_infos.tasks)
+    @Column({nullable:true})
+    category:number;
+
+
+    @Column({nullable:true})
+    priority:number;
+
+
+    @ManyToOne(() => Projectinfo , project_infos => project_infos.tasks)
     @JoinColumn({name:"project_id",referencedColumnName:"id"})
     project_infos : Projectinfo[];
 
-    @OneToMany(() => taskassign , taskassigns  => taskassigns.tasks)
-    taskassigns: taskassign[];
-    @ManyToOne(() => category , categorys => categorys.tasks)
-    @JoinColumn({name: "Category"})
-    categorys: category[];
+    @OneToMany(() => sub_task,subtasks => subtasks.tasks)
+     subtasks: sub_task[];
 
-    @OneToOne(()=> priority, prioritys =>prioritys.tasks)
-    @JoinColumn({name:"Priority",referencedColumnName:"id"})
-    prioritys:priority[];
+     @ManyToOne(() => category , categorys => categorys.tasks)
+     @JoinColumn({name: "category"})
+     categorys: category[];
+ 
+     @OneToOne(()=> priority, prioritys =>prioritys.tasks)
+     @JoinColumn({name:"priority",referencedColumnName:"id"})
+     prioritys:priority[];
 
+     @OneToMany(() => taskassign,taskassigns => taskassigns.tasks)
+     taskassigns: taskassign[];
 
-   
+ 
 }

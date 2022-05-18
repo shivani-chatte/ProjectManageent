@@ -1,6 +1,9 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToMany, ManyToOne, JoinColumn } from "typeorm";
 //import { ProjectinfoService } from "./projectinfo/projectinfo.service";
+import { Projectinfo } from "./project_info.entity";
+import { registration } from "./registration.entity";
 import { technologyassign } from "./technologyassign.entity";
+
 
     @Entity()
     export class technology{
@@ -15,8 +18,7 @@ import { technologyassign } from "./technologyassign.entity";
 
         @OneToMany(()=> technologyassign,(technologyassigns)=>technologyassigns.technologys)
         technologyassigns:technologyassign[]
-
-
+    
      
     }
 

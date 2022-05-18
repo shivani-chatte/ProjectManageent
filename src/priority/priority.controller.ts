@@ -5,7 +5,7 @@ import { PriorityService } from './priority.service';
 export class PriorityController {
     constructor(
         private readonly priorityservice:PriorityService ){}
-
+  //<--------------------------------------find all priority---------------------------------------->
         @Get()
         get(){
             return this.priorityservice.findAll();

@@ -1,28 +1,26 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { task } from "./task.entity";
 import { registration } from "./registration.entity";
+import { sub_task } from "./sub_task.entity ";
 
 @Entity()
-export class taskassign{
-
+export class subtaskassign{
     @PrimaryGeneratedColumn()
     id:number;
 
     @Column({nullable:true})
-    taskId:number;
+    subtaskId:number;
 
     @Column({nullable:true})
     registrationId:number;
 
 
-    @ManyToOne(()=>task,(tasks)=>tasks.taskassigns)
-     @JoinColumn({name:"taskId",referencedColumnName:"id"})
-    tasks:task[]
+    @ManyToOne(()=>sub_task,(subtasks)=>subtasks.subtaskassigns)
+     @JoinColumn({name:"subtaskId",referencedColumnName:"id"})
+    subtasks:sub_task[]
 
-    @ManyToOne(()=>registration,(registrations)=>registrations.taskassigns)
+    @ManyToOne(()=>registration,(registrations)=>registrations.subtaskassigns)
     @JoinColumn({name:"registrationId",referencedColumnName:"id"})
    registrations:registration[]
 
 
-    
 }

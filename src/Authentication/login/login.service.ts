@@ -1,5 +1,7 @@
 import { HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import { RegistrationService } from 'src/registration/registration.service';
+import jscookie from 'js-cookie';
+//import { UpdatePasswordService } from 'src/update/updatepassword.service';
 
 const md5 = require("apache-md5");
 
@@ -31,6 +33,31 @@ export class LoginService {
         else{
           throw new HttpException('Invalid Password', HttpStatus.NOT_FOUND);
         }
+
+//         const result = await this.RegistrationService.login(user)
+
+//         if (result.status === 200) {
+//         jscookie.set('token', result.id);
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        
   
     }

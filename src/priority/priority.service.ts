@@ -9,6 +9,7 @@ export class PriorityService {
         @InjectRepository(priority)
         private readonly priorityrepository: Repository<priority>
         ){}
+        //<--------------------------------------find all priority---------------------------------------->
        findAll(){
            return this.priorityrepository.find();
        }

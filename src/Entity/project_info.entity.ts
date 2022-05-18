@@ -1,18 +1,44 @@
+import { UseGuards } from "@nestjs/common";
 import { IsNotEmpty, IsString } from "class-validator";
-import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, RelationId } from "typeorm";
-import {projectassign } from "./projectassign.entity";
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { registration } from "./registration.entity";
 import { task } from "./task.entity";
 import { technology } from "./technology.entity";
+import { projectassign} from "./projectassign.entity";
 import { technologyassign } from "./technologyassign.entity";
+import { category } from "./category.entity";
+import { priority } from "./priority.entity";
 
 @Entity()
 export class Projectinfo{
     @PrimaryGeneratedColumn()
     id:number;
 
+   // @IsString()
+    //@IsNotEmpty()
+    //@Column({nullable:true})
+    //project_name:String;
+
+     //@IsString()
+     //@Column({nullable:true})
+    // technology:String;
+
+    // @IsString()
+    // @Column({nullable:true})
+     //user:string;
+
+    //@IsString()
+    //@IsNotEmpty()
     @Column({nullable:true})
     ProjectName:string;
+
+    //  @IsString()
+    //  @Column({nullable:true})
+    //  ProjectTechnology:String;
+
+    //  @IsString()
+    //  @Column({nullable:true})
+    //  ProjectResources:string;
 
     
      @Column({'default':0})
@@ -39,28 +65,32 @@ export class Projectinfo{
      ProjectDurationMonth:number;
 
      @Column({nullable:true})
-     ProjectDurationDays:number;
+     ProjectDurationDay:number;
+     
+     @CreateDateColumn({nullable:true})
+     createDate:Date;
      
      @Column({nullable:true})
      ProjectScope:string;
 
+    
+
      @OneToMany(()=>task, (tasks)=>tasks.project_infos)
      tasks:task[]
 
-    //  @ManyToMany(()=>registration,(registrations)=>registrations.projectinfos)
-    //  @JoinTable({name:"AssignProject"})
-    //  registrations:registration[]
+     /*@ManyToOne(()=>registration,(registrations)=>registrations.projectinfos)
+     @JoinColumn({name:"registrationId",referencedColumnName:"id"})
+     registrations:registration[]
 
-     @OneToMany(()=>technologyassign,(technologyassigns)=>technologyassigns.projectinfos)
-     technologyassigns:technologyassign[]
-
-    @OneToMany(() => projectassign , projectassigns  => projectassigns.projectinfos)
+     @ManyToOne(()=>technology,(technologymasters)=>technologymasters.projectinfos)
+    @JoinColumn({name:"technologyId",referencedColumnName:"id"})
+    technologymasters:technology[]*/
+   
+    @OneToMany(() => projectassign  , projectassigns  => projectassigns.projectinfos)
     projectassigns: projectassign[];
 
-
-    
-
-
+    @OneToMany(() => technologyassign  , technologyassigns  => technologyassigns.projectinfos)
+    technologyassigns: technologyassign[];
 
 }
     

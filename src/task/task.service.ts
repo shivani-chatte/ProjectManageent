@@ -29,7 +29,8 @@ export class TaskService {
         let msg = "Added successfully"
         return msg
       }
-
+      
+    
       async getprojectById(id): Promise<Projectinfo>{
         let projectinfo=  await this.projectinfoRepository.findOne(id, {relations :['tasks']});
         if(!projectinfo){
@@ -79,7 +80,6 @@ export class TaskService {
       return await this.taskRepository.update(id, {
         ...(tasks.Status && { Status: 1 })});
     }
-
     async getResource(id){
       return await this.projectinfoRepository
       .createQueryBuilder('p')
@@ -87,7 +87,6 @@ export class TaskService {
       .leftJoinAndSelect('pa.registrations','r')
       .where({ id })
       .getOne();
-    }
-    
+    }    
     
 }

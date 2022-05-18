@@ -11,7 +11,7 @@ export class SubTaskController {
 
     // <-----------------------------create and save subtask------------------------------------ >//  
      @Post()
-         async save(@Body() subtask:sub_task){
+         async save(@Body() subtask){
               const task = await this.subtaskService.gettaskById(subtask.tasks);
               return await this.subtaskService.Add(subtask,task);
             }
@@ -35,9 +35,7 @@ export class SubTaskController {
    update(
      @Param('id') id: number,
      @Body() subtasks: sub_task){
-         return this.subtaskService.update(id, subtasks);
-
-         
+         return this.subtaskService.update(id, subtasks);         
      }
 
    // <-----------------------------Delete subtask---------------------------------------------- >// 
@@ -48,10 +46,8 @@ export class SubTaskController {
                   
               }
 
-    
-            //   @Post('FindDate')
-            //   FindDate(){
-            //       return this.subtaskService.FindDate()
-                       
-              }
-
+    @Get('task/:id')
+    get(@Param('id') id: number){
+        return this.subtaskService.select(id);
+    }
+}

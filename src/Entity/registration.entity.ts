@@ -5,9 +5,12 @@ import { holiday } from "./holiday.entity";
 import { projectassign } from "./projectassign.entity";
 import { sub_task } from "./sub_task.entity ";
 import { user_type } from "./user_type.entity";
+import * as bcrypt from 'bcrypt';
+import { Projectinfo } from "./project_info.entity";
+import { technology } from "./technology.entity";
 import { history } from "./history.entity";
 import { taskassign } from "./taskassign.entity";
-
+import { subtaskassign } from "./subtaskassign.entity";
 
 var crypto = require('crypto');
 
@@ -84,21 +87,24 @@ export class registration{
 
     @OneToMany(() => projectassign ,projectassigns => projectassigns.registrations)
     projectassigns:projectassign[];
-
-    @ManyToOne(() => sub_task, sub_tasks=> sub_tasks.registrations)
-    sub_tasks:sub_task[];
-
-    @OneToMany(() => history, historys  => historys.registrations)
-    historys: history[];
-
-    @OneToMany(() => history , his  => his.regs)
-    his: history[];
-
-    @OneToMany(() => history , His  => His.Reg)
-    His: history[]; 
     
-    @OneToMany(() => taskassign , taskassigns  => taskassigns.registrations)
-    taskassigns: taskassign[];
+     @OneToMany(() => history , historys  => historys.registrations)
+     historys: history[];
+
+     @OneToMany(() => history , his  => his.regs)
+     his: history[];
+
+     @OneToMany(() => history , His  => His.Reg)
+     His: history[]; 
+
+    @OneToMany(() => sub_task , subtasks  => subtasks.registrations)
+    subtasks: sub_task[];
+
+    @OneToMany(() => taskassign,taskassigns => taskassigns.registrations)
+    taskassigns:taskassign[];
+
+    @OneToMany(() => subtaskassign,subtaskassigns => subtaskassigns.registrations)
+    subtaskassigns:subtaskassign[];
 
 
 }

@@ -4,9 +4,10 @@ import moment = require('moment');
 //import moment from 'moment';
 // import moment = require("moment");
 import { history } from 'src/Entity/history.entity';
+import { subtaskassign } from 'src/Entity/subtaskassign.entity';
 import { sub_task } from 'src/Entity/sub_task.entity ';
 import { task } from 'src/Entity/task.entity';
-
+import { projectassign } from 'src/Entity/projectassign.entity';
 import { createQueryBuilder, Repository } from 'typeorm';
 
 
@@ -24,7 +25,7 @@ export class SubTaskService {
     ){}
     // // <------------------create and save sub task--------------------------------------- >         
     
-    async Add(subtask:sub_task,task:task){
+    async Add(subtask,task:task){
 
           var now = moment(subtask.start_date)
           var end = moment(subtask.end_date)
@@ -37,14 +38,20 @@ export class SubTaskService {
           subtasks['subtask_id']=details.id;
           subtasks['user_id']=details.user_id;
           let usersubtask=await this.historyRepository.save(subtasks);
-         
+
+          
+          details.registrationid.forEach(async element => {
+            console.log(subtask.id);
+             let projectInfo=new subtaskassign()
+             projectInfo['subtaskId']=subtask.id;
+             projectInfo['registrationId']=element
+              let userProj=await this.subtaskRepository.save(projectInfo);
+            console.log(userProj)
+             
+          });
          // console.log(userProj)
          let msg = "Added successfully"
         return msg
-          
-      
-         
-         return details;
   
     }
   
@@ -62,8 +69,12 @@ export class SubTaskService {
 
 
     // <-----------------------------using id find all subtask ---------------------------------------- >// 
+   
+    // <-----------------------------find subtask by using taskid---------------------------------------- >// 
     async findsubtask(task_id:number){
-      const subtask = await createQueryBuilder("sub_task").where("task_id = :task_id",{task_id}).getMany()
+      
+      
+      const subtask = await createQueryBuilder("subtask") .where("task_id = :task_id",{task_id}).getMany()
       return subtask;
    }
 
@@ -91,7 +102,6 @@ export class SubTaskService {
     return msg
   }
 
-
 // <-----------------------------Delete subtask-------------------------------------------- > 
 async delete(id: number){
   const subtasks = await this.subtaskRepository.findOne(id, { relations: ["tasks"] });
@@ -101,16 +111,17 @@ async delete(id: number){
   subtasks.status = 1
   return await this.subtaskRepository.update(id, {
     ...(subtasks.status && { status: 1 })});
-  }
 }
 
 
-// async differnce(){
-//   const start_date = new Date(Date.UTC(2021, 4, 11, 0, 0, 0)).getTime();
-//   const end_date = new Date(Date.UTC(2021, 4, 12, 0, 0, 0)).getTime();
-//   const diffInMilliseconds = end_date - start_date;
-//   const diffInHours = diffInMilliseconds / 1000 / 60 / 60;
-//    console.log(diffInHours); 
+async select(id){
+  return await this.taskRepository
+      .createQueryBuilder('t')
+      .leftJoinAndSelect('t.taskassigns','pa')
+      .leftJoinAndSelect('pa.registrations','r')
+      .where({ id })
+      .getOne();
+    }
+}
 
-// }
 

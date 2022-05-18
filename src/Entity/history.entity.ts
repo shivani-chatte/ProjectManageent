@@ -1,6 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { registration } from "./registration.entity";
-
 import { sub_task } from "./sub_task.entity ";
 
 @Entity()

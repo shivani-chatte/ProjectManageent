@@ -8,10 +8,10 @@ export class projectassign{
     @PrimaryGeneratedColumn()
     id:number;
 
-    @Column()
+    @Column({nullable:true})
     projectinfoId:number;
 
-    @Column()
+    @Column({nullable:true})
     ProjectResources:number;
 
 

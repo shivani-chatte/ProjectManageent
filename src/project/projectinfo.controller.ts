@@ -5,13 +5,22 @@ import { Projectinfo } from 'src/Entity/project_info.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { ProjectinfoService } from './projectinfo.service';
 
+
 @Controller('projectinfo')
 export class ProjectinfoController {
     constructor( private readonly projectinfoservice:ProjectinfoService){}
 
-  //  <--------------------------add project----------------------------->
+    @UsePipes(new ValidationPipe)
+  //  <--------------------------addproject----------------------------->
+
+    // @Post()
+    // create(@Body() post:Projectinfo){
+    //   return this.projectinfoservice.createproject(post);
+    // }
+
     @Post()
     createReport(@Body() report){
+      console.log(report);
       return this.projectinfoservice.createreport(report);
     }
 
@@ -21,7 +30,12 @@ export class ProjectinfoController {
         return this.projectinfoservice.findAllPosts();
     }
     //<-------------------------------view one project------------------------------>
+    // @Get(':id')
+    // findOne(@Param('id',ParseIntPipe) id:number){
 
+    //     return this.projectinfoservice.findOnePosts(id)
+            
+    // }
     @Get('/:id')
     async getproById(@Param('id') id: number){
       return await this.projectinfoservice.getprojectbyId(id);
@@ -41,13 +55,14 @@ export class ProjectinfoController {
     delete(@Param('id')id:number){
      return this.projectinfoservice.deleteproject(id);   
     }
- 
+
     @Get('result/:id')
     get(
         @Param('id') id: number
     ){
         return this.projectinfoservice.select(id);
     }
+
 
     
 }
