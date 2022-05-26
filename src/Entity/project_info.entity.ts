@@ -51,13 +51,11 @@ export class Projectinfo{
      Email:string;
      
      @Column({nullable:true})
-     MobileNo:number;
+     MobileNo:string;
 
-     @CreateDateColumn({nullable:true})
-     CreatedAt:Date;
+     @Column({nullable:true})
+     CreatedAt:string;
 
-
-     
      @Column({nullable:true})
      CompanyName:string;
     
@@ -66,9 +64,6 @@ export class Projectinfo{
 
      @Column({nullable:true})
      ProjectDurationDay:number;
-     
-     @CreateDateColumn({nullable:true})
-     createDate:Date;
      
      @Column({nullable:true})
      ProjectScope:string;

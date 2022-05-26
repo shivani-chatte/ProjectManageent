@@ -44,7 +44,7 @@ export class TaskService {
         async findall(){
             const task = await createQueryBuilder("task") 
                                 .leftJoinAndSelect("task.project_infos",'pi')
-                                .where({status:0})
+                                .where({Status:0})
                                 .getMany()
           return task
           
