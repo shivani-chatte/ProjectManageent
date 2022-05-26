@@ -6,7 +6,7 @@ import { registration } from "./registration.entity";
 export class projectassign{
 
     @PrimaryGeneratedColumn()
-    id:number;
+    pid:number;
 
     @Column({nullable:true})
     projectinfoId:number;

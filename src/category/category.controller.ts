@@ -5,7 +5,7 @@ import { CategoryService } from './category.service';
 export class CategoryController {
     constructor(
         private readonly categoryservice:CategoryService ){}
-
+  //<--------------------------------------find all category---------------------------------------->
         @Get()
         get(){
             return this.categoryservice.findAll();

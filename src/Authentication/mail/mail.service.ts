@@ -20,7 +20,7 @@ export class MailService {
             let error=  new BadRequestException(`${data.email} is not valid email`)
             return error
         } 
-        if (user.status == 0) {
+        if (user.status == 1) {
             let error=  new BadRequestException(`${data.email} is not valid email`)
             return error
         }

@@ -27,9 +27,9 @@ export class ProjectinfoService {
                  projectinfo['ProjectName'] = post.ProjectName
                 //  projectinfo['ProjectTechnology'] = post.ProjectTechnology
                 //  projectinfo['ProjectResources'] = post.ProjectResources
-                 projectinfo['VenderName'] = post.VenderName
-                 projectinfo['Email'] = post.Email
-                 projectinfo['MobileNo'] = post.MobileNo
+                 projectinfo['ContactName'] = post.ContactName
+                 projectinfo['ContactEmail'] = post.ContactEmail
+                 projectinfo['ContactNumber'] = post.ContactNumber
                  projectinfo['CompanyName']=post.CompanyName
                  projectinfo['ProjectDurationMonth']=post.ProjectDurationMonth
                  projectinfo['ProjectDurationDays']=post.ProjectDurationDays
@@ -61,9 +61,9 @@ export class ProjectinfoService {
 
     async findAllPosts() {
 
-        const found = await createQueryBuilder("project") 
-                        .leftJoinAndSelect("project.projectassigns",'pa')
-                        .leftJoinAndSelect("project.technologyassigns",'ta')
+        const found = await createQueryBuilder("Projectinfo") 
+                        .leftJoinAndSelect("Projectinfo.projectassigns",'pa')
+                        .leftJoinAndSelect("Projectinfo.technologyassigns",'ta')
                         .where({status:0})
                         .getMany()
         return found
@@ -77,21 +77,60 @@ export class ProjectinfoService {
         if(!found){
          throw new NotFoundException('data not found');
         }
-        if(found.status == 0){
+        if(found.status == 1){
             throw new NotFoundException('data not found');
         }
         return found;
      }
       //<---------------------------------edit project--------------------------------->
 
-    async updateProject(id: number, post: Projectinfo) {
-        const found= await this.projectinforepository.findOne(id,{relations:['projectassigns','technologyassigns']});
-        if (found.status==1) {
-            throw new NotFoundException(`${id} is not exist`)
-        }
-        from(this.projectinforepository.update(id, post))
+    async updateProject( post) {
+        const found= await this.projectinforepository.findOne({relations:['projectassigns','technologyassigns']});
+        if(!found){
+            throw new NotFoundException('data not found');
+           }
+           
+        // if (found.status==1) {
+        //     throw new NotFoundException(`${id} is not exist`)
+        // }
+        //await this.projectinforepository.update(id, post)
+        
+        // post.ProjectTechnology.forEach(async element => {
+            // console.log(element)
+            let projectInfo=new Projectinfo()
+            projectInfo['ProjectName']=post.ProjectName,
+            projectInfo['ProjectScope']=post.ProjectScope,
+            projectInfo['CompanyName']=post.CompanyName,
+            projectInfo['ContactEmail']=post.ContactEmail,
+            projectInfo['ContactName']=post.ContactName,
+            projectInfo['ContactNumber']=post.ContactNumber,
+            projectInfo['ProjectDurationDay']=post.ProjectDurationDay,
+            projectInfo['ProjectDurationMonth']=post.ProjectDurationMonth,
+            // projectInfo['projectinfoId']=element.projectinfoId;
+            // projectInfo['projectinfoId']=element.id;
+            // projectInfo['ProjectTechnology']=post.id;
+           await this.projectinforepository.update(post.projectinfoId,projectInfo)
+           console.log(post)
+        
+       post.ProjectTechnology.forEach(async(element:any)=>{
+           let assign=new technologyassign();
+           assign['projectinfoId']=element.projectinfoId;
+           assign['id']=post.id;
+           assign['ProjectTechnology']=element;
+           const data=await this.techologyassignRepository.save(assign)
+       })
+       post.ProjectResources.forEach(async(element:any)=>{
+        let proassign=new projectassign();
+        proassign['projectinfoId']=element.projectinfoId;
+        proassign['pid']=post.pid;
+        proassign['ProjectResources']=element;
+        const dataa=await this.projectassignRepository.save(proassign)
+    })
+
+        
         let msg = "Updated Succefully"
         return msg
+        //return projectInfo;
     }
     
        //<-------------------------------delete project----------------------------------->

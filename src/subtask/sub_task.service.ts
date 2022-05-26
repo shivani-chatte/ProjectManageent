@@ -25,7 +25,7 @@ export class SubTaskService {
     ){}
     // // <------------------create and save sub task--------------------------------------- >         
     
-    async Add(subtask,task:task){
+    async Add(subtask,task){
 
           var now = moment(subtask.start_date)
           var end = moment(subtask.end_date)
@@ -34,21 +34,23 @@ export class SubTaskService {
           subtask['totaltime']=min
 
           let details=await this.subtaskRepository.save(subtask);
+
           let subtasks=new history()
           subtasks['subtask_id']=details.id;
-          subtasks['user_id']=details.user_id;
-          let usersubtask=await this.historyRepository.save(subtasks);
+          subtasks['user_id'] = details.user_id;
+          let usersubtask = await this.historyRepository.save(subtasks);
 
-          
-          details.registrationid.forEach(async element => {
-            console.log(subtask.id);
-             let projectInfo=new subtaskassign()
-             projectInfo['subtaskId']=subtask.id;
-             projectInfo['registrationId']=element
-              let userProj=await this.subtaskRepository.save(projectInfo);
-            console.log(userProj)
+//           let tasks = await this.subtaskRepository.save(subtask);
+// console .log(subtask)
+//           subtask.registrationId.forEach(async element => {
+//             console.log(subtask.id);
+//              let projectInfo=new subtaskassign()
+//              projectInfo['subtaskId']=subtask.id;
+//              projectInfo['registrationId']=element
+//               let userProj=await this.subtaskRepository.save(projectInfo);
+           // console.log(userProj)
              
-          });
+          //});
          // console.log(userProj)
          let msg = "Added successfully"
         return msg
@@ -61,7 +63,7 @@ export class SubTaskService {
       if(!task){
         throw new NotFoundException(`${id} is not valid user type`)
       }
-      if(task.Status==1){
+      if(task.status==1){
         throw new NotFoundException(`${id} is not exist`)
       }
       return task;
@@ -74,7 +76,7 @@ export class SubTaskService {
     async findsubtask(task_id:number){
       
       
-      const subtask = await createQueryBuilder("subtask") .where("task_id = :task_id",{task_id}).getMany()
+      const subtask = await createQueryBuilder("sub_task") .where("task_id = :task_id",{task_id}).getMany()
       return subtask;
    }
 
@@ -90,14 +92,24 @@ export class SubTaskService {
    // <-----------------------------update  subtask---------------------------------------------- --->//
    async update(id: number, user){
     const subtasks = await this.subtaskRepository.findOne(id, { relations: ["tasks","registrations","historys"] });
+    if(!subtasks)
+    {
+      throw new NotFoundException('data not found')
+    }
 
     if(subtasks.status==1){
       throw new NotFoundException(`${id} is not exist`)
     }
+
+    let subtask = await this.subtaskRepository.update(id,user);
     
-    let upuser=new history()
-    upuser['newuser_id'] = user.user_id;
-    await this.historyRepository.update(id,upuser);
+    let hist = await this.historyRepository
+    .createQueryBuilder('h')
+    .update(history)
+    .set({newuser_id : user.user_id})
+    .where({subtask_id : id})
+    .execute();
+    
     let msg = "Updated Succefully"
     return msg
   }

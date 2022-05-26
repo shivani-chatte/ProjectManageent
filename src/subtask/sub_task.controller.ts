@@ -34,7 +34,7 @@ export class SubTaskController {
    @Put(':id')
    update(
      @Param('id') id: number,
-     @Body() subtasks: sub_task){
+     @Body() subtasks){
          return this.subtaskService.update(id, subtasks);         
      }
 

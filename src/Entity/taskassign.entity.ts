@@ -12,7 +12,7 @@ export class taskassign{
     taskId:number;
 
     @Column({nullable:true})
-    registrationId:number;
+    TaskResource:number;
 
 
     @ManyToOne(()=>task,(tasks)=>tasks.taskassigns)
@@ -20,7 +20,7 @@ export class taskassign{
     tasks:task[]
 
     @ManyToOne(()=>registration,(registrations)=>registrations.taskassigns)
-    @JoinColumn({name:"registrationId",referencedColumnName:"id"})
+    @JoinColumn({name:"TaskResource",referencedColumnName:"id"})
    registrations:registration[]
 
 

@@ -17,18 +17,19 @@ export class LoginService {
         let error =  new HttpException('Invalid username', HttpStatus.NOT_FOUND);
         return error
       }
-      if(user.status == 0){
+      if(user.status == 1){
         let error =  new HttpException('Invalid username', HttpStatus.NOT_FOUND);
         return error
       }
        const encrptpassword = user.password;
        
        const isMatch = md5(data.password, encrptpassword) == encrptpassword;
-        
+        //console.log(isMatch) 
         if (user && isMatch) {
-           const { password, ...result} = user;
+           const {password,...result} = user;
            const msg = "login successful"
           return (msg)
+          //console.log(msg)
         }
         else{
           throw new HttpException('Invalid Password', HttpStatus.NOT_FOUND);

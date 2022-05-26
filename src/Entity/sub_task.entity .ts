@@ -49,24 +49,24 @@ status:number;
  task_id:number;
 
  @Column({nullable:true})
- user_id:number;
+user_id:number;
 
  @ManyToOne(() => task ,tasks => tasks.sub_tasks)
 @JoinColumn({name:"task_id",referencedColumnName:"id"})
 tasks:task[];
 
-@ManyToOne(() => registration, registrations=> registrations.subtasks)
+@ManyToOne(() => registration, registrations=> registrations.sub_tasks)
 @JoinColumn({name:"user_id",referencedColumnName:"id"})
 registrations:registration[];
 
-@OneToMany(() => history , historys  => historys.sub_tasks)
+@OneToMany(() => history , historys  => historys.sub_task)
 historys:history[];
 
 @ManyToOne(() => category , categorys => categorys.subtasks)
 @JoinColumn({name: "category"})
 categorys: category[];
 
-@OneToOne(()=> priority, prioritys =>prioritys.subtasks)
+@ManyToOne(()=> priority, prioritys =>prioritys.subtasks)
 @JoinColumn({name:"priority",referencedColumnName:"id"})
 prioritys:priority[];
 

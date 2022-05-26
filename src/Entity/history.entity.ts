@@ -18,7 +18,7 @@ export class history{
 
     @ManyToOne(() => sub_task , sub_tasks  => sub_tasks.historys)
     @JoinColumn({name: "subtask_id"})
-    sub_tasks: sub_task[];
+    sub_task: sub_task[];
 
     @ManyToOne(() => registration  , registrations  => registrations.historys)
     @JoinColumn({name: "user_id"})

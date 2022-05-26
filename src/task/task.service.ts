@@ -20,10 +20,10 @@ export class TaskService {
        async Add(task,Projectinfo:Projectinfo){
         let tasks = await this.taskRepository.save(task);
 
-        task.registrationId.forEach(async element => {
+        task.TaskResource.forEach(async element => {
           let projectInfo=new taskassign()
           projectInfo['taskId']=task.id;
-          projectInfo['registrationId']=element
+          projectInfo['TaskResource']=element
            let userProj = await this.taskassignRepository.save(projectInfo);
         });
         let msg = "Added successfully"
@@ -50,21 +50,44 @@ export class TaskService {
           
      }
 
-      //-------------------------------find task by project_id-------------------------------------------//
+      //-------------------------------find one task by id-------------------------------------------//
 
-     async findalltask(project_id:number){    
-      const task = await createQueryBuilder("task").where('"project_id" = :project_id', { project_id }).getMany()
-      return task
-   }
+      async gettaskbyId(id:number){
+        const found= await this.taskRepository.findOne(id,{relations:['categorys','prioritys']});
+        if(!found){
+         throw new NotFoundException('data not found');
+        }
+        if(found.status == 1){
+            throw new NotFoundException('data not found');
+        }
+        return found;
+        
+      }
       //--------------------------------update task-------------------------------------------//
 
-     async update(id: number, data: task){
+     async update( data){
     
-      const datas = await this.taskRepository.findOne(id, { relations: ["project_infos"] });
-      if(datas.Status == 1){
-        throw new NotFoundException(`${id} is not exist`)
-      }
-       await this.taskRepository.update(id, data)
+      const datas = await this.taskRepository.findOne({ relations: ["project_infos"] });
+      // if(datas.status == 1){
+      //   throw new NotFoundException(`${id} is not exist`)
+      // }
+      let Task=new task()
+      Task['TaskName']=data.TaskName,
+      Task['TaskDescription']=data.TaskDescription,
+      Task['TaskDuration']=data.TaskDuration,
+      Task['category']=data.category,
+      Task['priority']=data.priority,
+      //Task['ContactNumber']=data.ContactNumber,
+       await this.taskRepository.update(data.taskId,Task)
+       data.TaskResource.forEach(async(element:any)=>{
+        let Taskassign=new taskassign();
+        Taskassign['taskId']=element.taskId;
+        Taskassign['id']=data.id;
+        Taskassign['TaskResource']=element;
+        const dataa=await this.taskassignRepository.save(Taskassign)
+    })
+
+
        let msg = "Updated Succefully"
        return msg
     }
@@ -76,9 +99,9 @@ export class TaskService {
       if(!tasks){
         throw new NotFoundException(`${id} is not exist`)
       }
-      tasks.Status = 1
+      tasks.status = 1
       return await this.taskRepository.update(id, {
-        ...(tasks.Status && { Status: 1 })});
+        ...(tasks.status && { status: 1 })});
     }
     async getResource(id){
       return await this.projectinfoRepository

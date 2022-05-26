@@ -41,15 +41,12 @@ export class ProjectinfoController {
       return await this.projectinfoservice.getprojectbyId(id);
     }
     //<---------------------------------edit project---------------------------------->
-    @Put(':id')
+    @Put('/update')
     update(
-        @Param('id') id:number,
-    @Body()post:Projectinfo 
-    ){
-        return this.projectinfoservice.updateProject(id,post);
-
-
-    }
+         //@Param('id') id:number,
+    @Body()post ){
+        return this.projectinfoservice.updateProject(post);
+ }
     //<-------------------------------deleteproject------------------------------------>
     @Delete(':id')
     delete(@Param('id')id:number){

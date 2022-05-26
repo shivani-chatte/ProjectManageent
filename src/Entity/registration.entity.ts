@@ -22,22 +22,22 @@ export class registration{
     id : Number;
 
     @Column({default:''})
-    @IsString()
-    @IsNotEmpty()
+    // @IsString()
+    // @IsNotEmpty()
     firstname: String;
 
     @Column({default:''})
-    @IsString()
-    @IsNotEmpty()
-    lastname: String;
+    // @IsString()
+    // @IsNotEmpty()
+     lastname: String;
 
     @Column({default:''})
-    @IsString()
-    @IsNotEmpty()
-    address: String;
+    // @IsString()
+    // @IsNotEmpty()
+     address: String;
 
     @Column({length:10, nullable:true})
-    @IsNotEmpty()
+    // @IsNotEmpty()
     mobilenumber: String;
 
     @Column({nullable:true})
@@ -50,24 +50,24 @@ export class registration{
     profile_path: String;
 
     @Column()
-    @IsNotEmpty()
+    // @IsNotEmpty()
     @IsEmail({unique: true})
     email: String;
 
     @Column()
-    @IsNotEmpty()
+    // @IsNotEmpty()
     department: Number;
 
     @Column()
-    @IsNotEmpty()
+    // @IsNotEmpty()
     user_type: Number;
 
     @Column({unique: true})
-    @IsNotEmpty()
+    // @IsNotEmpty()
     user_name: string;
 
     @Column({nullable: true})
-    @IsNotEmpty()
+    // @IsNotEmpty()
     password: string;
 
     @Column({default:0})
@@ -98,7 +98,7 @@ export class registration{
      His: history[]; 
 
     @OneToMany(() => sub_task , subtasks  => subtasks.registrations)
-    subtasks: sub_task[];
+    sub_tasks: sub_task[];
 
     @OneToMany(() => taskassign,taskassigns => taskassigns.registrations)
     taskassigns:taskassign[];

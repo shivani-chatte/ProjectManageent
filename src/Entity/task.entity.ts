@@ -18,11 +18,11 @@ export class task{
     @Column({nullable:true})
     project_id:number;
 
-    @Column({nullable:true})
-    Priority: string;
+    // @Column({nullable:true})
+    // Priority: string;
 
-    @Column({nullable:true})
-    Category: string;
+    // @Column({nullable:true})
+    // Category: string;
 
     @Column({nullable:true})
     TaskDescription: string;
@@ -31,10 +31,8 @@ export class task{
     TaskDuration: number;
 
     @Column({default:0})
-    Status:number;
+    status:number;
 
-    @OneToMany(() => sub_task,sub_tasks => sub_tasks.tasks)
-    sub_tasks: sub_task[];
 
     @Column({nullable:true})
     category:number;
@@ -49,13 +47,13 @@ export class task{
     project_infos : Projectinfo[];
 
     @OneToMany(() => sub_task,subtasks => subtasks.tasks)
-     subtasks: sub_task[];
+     sub_tasks: sub_task[];
 
      @ManyToOne(() => category , categorys => categorys.tasks)
      @JoinColumn({name: "category"})
      categorys: category[];
  
-     @OneToOne(()=> priority, prioritys =>prioritys.tasks)
+     @ManyToOne(()=> priority, prioritys =>prioritys.tasks)
      @JoinColumn({name:"priority",referencedColumnName:"id"})
      prioritys:priority[];
 

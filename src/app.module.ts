@@ -25,7 +25,6 @@ import { technology } from './Entity/technology.entity';
 import { ProjectinfoController } from './project/projectinfo.controller';
 import { ProjectinfoService } from './project/projectinfo.service';
 import { sub_task } from './Entity/sub_task.entity ';
-import { AssignProject } from './Entity/AssignProject.entity';
 import { projectassign } from './Entity/projectassign.entity';
 import { technologyassign } from './Entity/technologyassign.entity';
 import { history } from './Entity/history.entity';
@@ -56,7 +55,7 @@ import { dashService } from './dashboard/dash.service';
     host: "localhost",
     port: 5432,
     username: "postgres",
-    password: "Sonu@123",
+    password: "komaljadhav",
     database: "ProjectManagement",
     synchronize: true,
     logging: false,
@@ -88,8 +87,8 @@ import { dashService } from './dashboard/dash.service';
       }),
       inject: [ConfigService]
     }),
-    TypeOrmModule.forFeature([registration, user_type, department,sub_task,task,Projectinfo,technology,AssignProject,projectassign,technologyassign,history, holiday, interns_college, collegeinfo,category,priority,taskassign,subtaskassign])],
-  controllers: [AppController, RegistrationController, LoginController, ResetController,dashController, MailController, TaskController,ProjectinfoController,SubTaskController, UserTypeController, HolidayController],
-  providers: [AppService,RegistrationService, LoginService, ResetService, MailService,dashService, TaskService,ProjectinfoService,SubTaskService, UserTypeService, HolidayService],
+    TypeOrmModule.forFeature([registration, user_type, department,sub_task,task,Projectinfo,technology,projectassign,technologyassign,history, holiday, interns_college, collegeinfo,category,priority,taskassign,subtaskassign])],
+  controllers: [AppController, RegistrationController, LoginController,dashController, ResetController, MailController, TaskController,ProjectinfoController,SubTaskController, UserTypeController, HolidayController],
+  providers: [AppService,RegistrationService, LoginService,dashService, ResetService, MailService, TaskService,ProjectinfoService,SubTaskService, UserTypeService, HolidayService],
 })
 export class AppModule {}

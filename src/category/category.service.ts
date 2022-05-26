@@ -9,6 +9,7 @@ export class CategoryService {
         @InjectRepository(category)
         private readonly categoryrepository: Repository<category>
         ){}
+        //<--------------------------------------find all category---------------------------------------->
        findAll(){
            return this.categoryrepository.find();
        }

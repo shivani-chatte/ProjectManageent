@@ -22,19 +22,20 @@ export class TaskController {
             return this.taskService.findall();
         }
 
-    //-----------------------------------find task by project_id------------------------------------------// 
+    //-----------------------------------find one task by id------------------------------------------// 
    
-        @Get(':project_id')
-        findtask(@Param('project_id') project_id: number,){
-            return this.taskService.findalltask(project_id);
-        }
+        
+    @Get('/:id')
+    async gettaskById(@Param('id') id: number){
+      return await this.taskService.gettaskbyId(id);
+    }
     //-----------------------------------------update task------------------------------------------------------// 
 
-        @Put(':id')
+        @Put('/update')
         update(
-          @Param('id') id: number,
-          @Body() task: task){
-              return this.taskService.update(id, task);
+          //@Param('id') id: number,
+          @Body()task){
+              return this.taskService.update(task);
               
           }
 

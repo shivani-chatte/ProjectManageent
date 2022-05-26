@@ -13,22 +13,21 @@ import { priority } from "./priority.entity";
 export class Projectinfo{
     @PrimaryGeneratedColumn()
     id:number;
-
-   // @IsString()
-    //@IsNotEmpty()
-    //@Column({nullable:true})
-    //project_name:String;
-
-     //@IsString()
-     //@Column({nullable:true})
-    // technology:String;
+     
+     @Column({nullable:true})
+     ContactEmail:String;
 
     // @IsString()
-    // @Column({nullable:true})
-     //user:string;
+    @Column({nullable:true})
+     ContactName:string;
+     
+     @Column({nullable:true})
+     ContactNumber:string;
+   
 
-    //@IsString()
-    //@IsNotEmpty()
+
+    // @IsString()
+    // @IsNotEmpty()
     @Column({nullable:true})
     ProjectName:string;
 
@@ -43,16 +42,7 @@ export class Projectinfo{
     
      @Column({'default':0})
      status:number;
-
-     @Column({nullable:true})
-     VenderName:string;
-    
-     @Column({nullable:true})
-     Email:string;
-     
-     @Column({nullable:true})
-     MobileNo:string;
-
+  
      @Column({nullable:true})
      CreatedAt:string;
 
@@ -64,6 +54,9 @@ export class Projectinfo{
 
      @Column({nullable:true})
      ProjectDurationDay:number;
+     
+    //  @CreateDateColumn({nullable:true})
+    //  createDate:Date;
      
      @Column({nullable:true})
      ProjectScope:string;
