@@ -54,7 +54,7 @@ import { subtaskassign } from './Entity/subtaskassign.entity';
     host: "localhost",
     port: 5432,
     username: "postgres",
-    password: "komaljadhav",
+    password: "Sonu@123",
     database: "ProjectManagement",
     synchronize: true,
     logging: false,
