@@ -50,4 +50,11 @@ export class SubTaskController {
     get(@Param('id') id: number){
         return this.subtaskService.select(id);
     }
+
+    // <-------------------------------Dashboard----------------------------------------->//
+    @Get('user/:id')
+    getuser(@Param('id') id: number){
+        return this.subtaskService.selectuser(id);
+    }
+
 }

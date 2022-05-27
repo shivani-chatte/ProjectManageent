@@ -55,7 +55,7 @@ import { dashService } from './dashboard/dash.service';
     host: "localhost",
     port: 5432,
     username: "postgres",
-    password: "komaljadhav",
+    password: "Sonu@123",
     database: "ProjectManagement",
     synchronize: true,
     logging: false,
@@ -88,7 +88,7 @@ import { dashService } from './dashboard/dash.service';
       inject: [ConfigService]
     }),
     TypeOrmModule.forFeature([registration, user_type, department,sub_task,task,Projectinfo,technology,projectassign,technologyassign,history, holiday, interns_college, collegeinfo,category,priority,taskassign,subtaskassign])],
-  controllers: [AppController, RegistrationController, LoginController,dashController, ResetController, MailController, TaskController,ProjectinfoController,SubTaskController, UserTypeController, HolidayController],
-  providers: [AppService,RegistrationService, LoginService,dashService, ResetService, MailService, TaskService,ProjectinfoService,SubTaskService, UserTypeService, HolidayService],
+  controllers: [AppController, RegistrationController, LoginController, ResetController,dashController, MailController, TaskController,ProjectinfoController,SubTaskController, UserTypeController, HolidayController],
+  providers: [AppService,RegistrationService, LoginService, ResetService, MailService,dashService, TaskService,ProjectinfoService,SubTaskService, UserTypeService, HolidayService],
 })
 export class AppModule {}

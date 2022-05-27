@@ -103,6 +103,8 @@ export class TaskService {
       return await this.taskRepository.update(id, {
         ...(tasks.status && { status: 1 })});
     }
+
+    
     async getResource(id){
       return await this.projectinfoRepository
       .createQueryBuilder('p')

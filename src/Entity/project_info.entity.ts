@@ -42,7 +42,8 @@ export class Projectinfo{
     
      @Column({'default':0})
      status:number;
-  
+
+
      @Column({nullable:true})
      CreatedAt:string;
 
@@ -54,9 +55,6 @@ export class Projectinfo{
 
      @Column({nullable:true})
      ProjectDurationDay:number;
-     
-    //  @CreateDateColumn({nullable:true})
-    //  createDate:Date;
      
      @Column({nullable:true})
      ProjectScope:string;

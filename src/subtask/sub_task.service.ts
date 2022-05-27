@@ -9,6 +9,8 @@ import { sub_task } from 'src/Entity/sub_task.entity ';
 import { task } from 'src/Entity/task.entity';
 import { projectassign } from 'src/Entity/projectassign.entity';
 import { createQueryBuilder, Repository } from 'typeorm';
+import { Projectinfo } from 'src/Entity/project_info.entity';
+import { RegistrationService } from 'src/registration/registration.service';
 
 
 
@@ -21,7 +23,10 @@ export class SubTaskService {
         @InjectRepository(task)
         private readonly taskRepository: Repository<task>,
         @InjectRepository(history)
-        private readonly historyRepository: Repository<history>
+        private readonly historyRepository: Repository<history>,
+        @InjectRepository(Projectinfo)
+        private projectinforepository: Repository<Projectinfo>,
+        private readonly registrationService : RegistrationService
     ){}
     // // <------------------create and save sub task--------------------------------------- >         
     
@@ -134,6 +139,28 @@ async select(id){
       .where({ id })
       .getOne();
     }
+
+  // <-------------------------------Dashboard----------------------------------------->//
+  async selectuser(user_id){
+    const user = await this.registrationService.findOneUser(user_id);
+    if(user.user_type == 2 && user.user_type == 3){
+        return await this.projectinforepository
+        .createQueryBuilder('p')
+        .leftJoinAndSelect('p.tasks','t')
+        .leftJoinAndSelect('t.sub_tasks','st')
+        .where('st.user_id = :user_id', { user_id } )
+        .getMany();
+    }else{
+      return await this.projectinforepository
+      .createQueryBuilder('p')
+      .leftJoinAndSelect('p.tasks','t')
+      .leftJoinAndSelect('t.sub_tasks','st')
+      .leftJoinAndSelect('st.registrations','r')
+      .getMany();
+    }
+  
+  }
+
 }
 
 

@@ -12,6 +12,7 @@ export class dashController {
    
   @Get('today')
    getToday(){
+    
     return this.dashservice.getToday();
   }
 
@@ -25,10 +26,6 @@ export class dashController {
     return this.dashservice.getWeek();
   }
   
-//   @Get('custom')
-//   getCustom(@Body('from') from: string, @Body('to') to: string): object {
-//       return this.dashservice.getCustom(from, to);
-//   }
    @Get('month')
    getMonth(){
      return this.dashservice.getMonth();
