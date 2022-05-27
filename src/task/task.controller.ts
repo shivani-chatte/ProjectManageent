@@ -52,7 +52,13 @@ export class TaskController {
     @Get('project/:id')
     getResource(@Param('id') id: number,){
         return this.taskService.getResource(id);
-    }      
+    } 
+    
+    @Get('taskbyproject/:id')
+    gettask(@Param('id') id: number,){
+        return this.taskService.getprojectById(id);
+    } 
+    
 }
       
         

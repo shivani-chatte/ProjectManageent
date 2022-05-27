@@ -26,7 +26,7 @@ export class SubTaskService {
         private readonly historyRepository: Repository<history>,
         @InjectRepository(Projectinfo)
         private projectinforepository: Repository<Projectinfo>,
-        private readonly registrationService : RegistrationService
+        
     ){}
     // // <------------------create and save sub task--------------------------------------- >         
     
@@ -130,6 +130,7 @@ async delete(id: number){
     ...(subtasks.status && { status: 1 })});
 }
 
+//-----------------resources of subtask from taskid----------------------------//
 
 async select(id){
   return await this.taskRepository
@@ -139,27 +140,6 @@ async select(id){
       .where({ id })
       .getOne();
     }
-
-  // <-------------------------------Dashboard----------------------------------------->//
-  async selectuser(user_id){
-    const user = await this.registrationService.findOneUser(user_id);
-    if(user.user_type == 2 && user.user_type == 3){
-        return await this.projectinforepository
-        .createQueryBuilder('p')
-        .leftJoinAndSelect('p.tasks','t')
-        .leftJoinAndSelect('t.sub_tasks','st')
-        .where('st.user_id = :user_id', { user_id } )
-        .getMany();
-    }else{
-      return await this.projectinforepository
-      .createQueryBuilder('p')
-      .leftJoinAndSelect('p.tasks','t')
-      .leftJoinAndSelect('t.sub_tasks','st')
-      .leftJoinAndSelect('st.registrations','r')
-      .getMany();
-    }
-  
-  }
 
 }
 

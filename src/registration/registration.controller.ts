@@ -60,6 +60,10 @@ export class RegistrationController {
           
       }
 
+      @Get('leader/get')
+        findleader(){
+            return this.registrationService.findleader();
+        }
 }
 
 

@@ -44,6 +44,10 @@ import { priority } from './Entity/priority.entity';
 import { subtaskassign } from './Entity/subtaskassign.entity';
 import { dashController } from './dashboard/dash.controller';
 import { dashService } from './dashboard/dash.service';
+import { PriorityService } from './priority/priority.service';
+import { PriorityController } from './priority/priority.controller';
+import { CategoryController } from './category/category.controller';
+import { CategoryService } from './category/category.service';
 
 
 
@@ -88,7 +92,7 @@ import { dashService } from './dashboard/dash.service';
       inject: [ConfigService]
     }),
     TypeOrmModule.forFeature([registration, user_type, department,sub_task,task,Projectinfo,technology,projectassign,technologyassign,history, holiday, interns_college, collegeinfo,category,priority,taskassign,subtaskassign])],
-  controllers: [AppController, RegistrationController, LoginController, ResetController,dashController, MailController, TaskController,ProjectinfoController,SubTaskController, UserTypeController, HolidayController],
-  providers: [AppService,RegistrationService, LoginService, ResetService, MailService,dashService, TaskService,ProjectinfoService,SubTaskService, UserTypeService, HolidayService],
+  controllers: [AppController, RegistrationController, LoginController, ResetController,PriorityController,dashController, MailController, TaskController,ProjectinfoController,SubTaskController,CategoryController, UserTypeController, HolidayController],
+  providers: [AppService,RegistrationService, LoginService, ResetService,PriorityService, MailService,dashService, TaskService,ProjectinfoService,SubTaskService, UserTypeService, HolidayService,CategoryService],
 })
 export class AppModule {}

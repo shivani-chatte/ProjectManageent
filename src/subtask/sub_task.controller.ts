@@ -45,16 +45,11 @@ export class SubTaskController {
                   return this.subtaskService.delete(id);
                   
               }
-
+    //-----------------resources of subtask from taskid----------------------------//
     @Get('task/:id')
     get(@Param('id') id: number){
         return this.subtaskService.select(id);
     }
 
-    // <-------------------------------Dashboard----------------------------------------->//
-    @Get('user/:id')
-    getuser(@Param('id') id: number){
-        return this.subtaskService.selectuser(id);
-    }
-
+    
 }

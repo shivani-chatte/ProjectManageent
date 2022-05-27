@@ -25,7 +25,7 @@ status:number;
  description: string;
 
  @Column({nullable:true})
- teamleadername: string;
+ teamleadername: number;
 
  @Column({nullable:true})
  priority: string;

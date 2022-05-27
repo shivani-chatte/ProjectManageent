@@ -6,6 +6,7 @@ import { Projectinfo } from "src/Entity/project_info.entity";
 //import moment = require('moment');
 //import { start } from "repl";
 import { ProjectinfoController } from "src/project/projectinfo.controller";
+import { RegistrationService } from "src/registration/registration.service";
 import { getRepository, Repository } from "typeorm";
 
 
@@ -13,58 +14,210 @@ import { getRepository, Repository } from "typeorm";
 export class dashService {
     constructor(
         @InjectRepository(Projectinfo)
-        private readonly projectinforepository: Repository<Projectinfo>
+        private readonly projectinforepository: Repository<Projectinfo>,
+        private readonly registrationService : RegistrationService
 
     ) { }
 
     
-    async getToday() {
+    async getToday(user_id) {
         var today1 = moment().format('YYYY-MM-DD');
-       // let today = await this.projectinforepository.query(`SELECT cast( "CreatedAt" as date) from Projectinfo where id = 1 `);
-       let rawData = await this.projectinforepository.query(`SELECT * from Projectinfo where cast( "CreatedAt" as date) = to_date('${today1}','yyyy-mm-dd') `);
-        console.log('rawdata', rawData)
-        return rawData;
+
+        const user = await this.registrationService.findOneUser(user_id);
+        if(user.user_type == 2 || user.user_type == 3){
+            return await this.projectinforepository
+            .createQueryBuilder('p')
+            .leftJoinAndSelect('p.tasks','t')
+            .leftJoinAndSelect('t.sub_tasks','st')
+            .where('st.user_id = :user_id', { user_id } )
+            .andWhere("to_date(p.CreatedAt,'YYYY-MM-DD') =:today",{today : today1})
+            .getMany();
+        }
+        else if(user.user_type == 4)
+        {
+            return await this.projectinforepository
+            .createQueryBuilder('p')
+            .leftJoinAndSelect('p.tasks','t')
+            .leftJoinAndSelect('t.sub_tasks','st')
+            .where('st.teamleadername = :user_id', { user_id } )
+            .andWhere("to_date(p.CreatedAt,'YYYY-MM-DD') =:today",{today : today1})
+            .leftJoinAndSelect('st.registrations','r')
+            
+            .getMany();
+            
+        }
+        else{
+            return await this.projectinforepository
+            .createQueryBuilder('p')
+            .leftJoinAndSelect('p.tasks','t')
+            .leftJoinAndSelect('t.sub_tasks','st')
+            .leftJoinAndSelect('st.registrations','r')
+            .where("to_date(p.CreatedAt,'YYYY-MM-DD') =:today",{today : today1})
+            .getMany();
+        }
+      
      }
 
      
-    async getPrevious() {
+    async getPrevious(user_id) {
      var today1 = moment().subtract(1, 'days').format('YYYY-MM-DD');
-       // let today = await this.projectinforepository.query(`SELECT cast( "CreatedAt" as date) from Projectinfo where id = 1 `);
-       let rawData = await this.projectinforepository.query(`SELECT * from Projectinfo where cast( "CreatedAt" as date) = to_date('${today1}','yyyy-mm-dd') `);
-        console.log('rawdata', rawData)
-        return rawData;
+
+     const user = await this.registrationService.findOneUser(user_id);
+     if(user.user_type == 2 || user.user_type == 3){
+        return await this.projectinforepository
+        .createQueryBuilder('p')
+        .leftJoinAndSelect('p.tasks','t')
+        .leftJoinAndSelect('t.sub_tasks','st')
+        .where('st.user_id = :user_id', { user_id } )
+        .andWhere("to_date(p.CreatedAt,'YYYY-MM-DD') =:today",{today : today1})
+        .getMany();
+    }
+    else if(user.user_type == 4)
+    {
+        return await this.projectinforepository
+        .createQueryBuilder('p')
+        .leftJoinAndSelect('p.tasks','t')
+        .leftJoinAndSelect('t.sub_tasks','st')
+        .where('st.teamleadername = :user_id', { user_id } )
+        .andWhere("to_date(p.CreatedAt,'YYYY-MM-DD') =:today",{today : today1})
+        .leftJoinAndSelect('st.registrations','r')
+        .getMany();
+        
+    }
+    else{
+        return await this.projectinforepository
+        .createQueryBuilder('p')
+        .leftJoinAndSelect('p.tasks','t')
+        .leftJoinAndSelect('t.sub_tasks','st')
+        .leftJoinAndSelect('st.registrations','r')
+        .where("to_date(p.CreatedAt,'YYYY-MM-DD') =:today",{today : today1})
+        .getMany();
+    }
+       
         
     }
 
-    async getWeek() {
+    async getWeek(user_id) {
         var startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
         var endDate = moment().format('YYYY-MM-DD ')
-        // let today = await this.projectinforepository.query(`SELECT cast( "CreatedAt" as date) from Projectinfo where id = 1 `);
-        let rawData = await this.projectinforepository.query(`SELECT * from Projectinfo where cast( "CreatedAt" as date)  BETWEEN to_date('${startDate}','yyyy-mm-dd') AND to_date('${endDate}','yyyy-mm-dd') `);
-        return rawData;
 
+        const user = await this.registrationService.findOneUser(user_id);
+        if(user.user_type == 2 || user.user_type == 3){
+            return await this.projectinforepository
+            .createQueryBuilder('p')
+            .leftJoinAndSelect('p.tasks','t')
+            .leftJoinAndSelect('t.sub_tasks','st')
+            .where('st.user_id = :user_id', { user_id } )
+            .andWhere("to_date(p.CreatedAt,'YYYY/MM/DD') >:startDate",{startDate : startDate})
+            .andWhere("to_date(p.CreatedAt,'YYYY/MM/DD')<= :endDate ",{endDate : endDate})
+            .getMany();
+        }
+        else if(user.user_type == 4)
+    {
+        return await this.projectinforepository
+        .createQueryBuilder('p')
+        .leftJoinAndSelect('p.tasks','t')
+        .leftJoinAndSelect('t.sub_tasks','st')
+        .where('st.teamleadername = :user_id', { user_id } )
+        .andWhere("to_date(p.CreatedAt,'YYYY-MM-DD') >:startDate",{startDate : startDate})
+        .andWhere("to_date(p.CreatedAt,'YYYY-MM-DD') <= :endDate ",{endDate : endDate})
+        .leftJoinAndSelect('st.registrations','r')
+        .getMany();
+        
+    }
+    else{
+        return await this.projectinforepository
+        .createQueryBuilder('p')
+        .leftJoinAndSelect('p.tasks','t')
+        .leftJoinAndSelect('t.sub_tasks','st')
+        .leftJoinAndSelect('st.registrations','r')
+        .where("to_date(p.CreatedAt,'YYYY-MM-DD') >:startDate",{startDate : startDate})
+        .andWhere("to_date(p.CreatedAt,'YYYY-MM-DD') <= :endDate ",{endDate : endDate})
+        .getMany();
+    }
 
     }
 
 
 
-    async getMonth() {
+    async getMonth(user_id) {
         var startDate = moment().subtract(30, 'days').format('YYYY-MM-DD');
         var endDate = moment().format('YYYY-MM-DD')
-        let rawData = await this.projectinforepository.query(`SELECT * from Projectinfo where cast( "CreatedAt" as date)  BETWEEN to_date('${startDate}','yyyy-mm-dd') AND to_date('${endDate}','yyyy-mm-dd') `);
-        return rawData;
+        const user = await this.registrationService.findOneUser(user_id);
+        if(user.user_type == 2 || user.user_type == 3){
+            return await this.projectinforepository
+            .createQueryBuilder('p')
+            .leftJoinAndSelect('p.tasks','t')
+            .leftJoinAndSelect('t.sub_tasks','st')
+            .where('st.user_id = :user_id', { user_id } )
+            .andWhere("to_date(p.CreatedAt,'YYYY-MM-DD') >:startDate",{startDate : startDate})
+            .andWhere("to_date(p.CreatedAt,'YYYY-MM-DD') <= :endDate ",{endDate : endDate})
+            .getMany();
+        }
+        else if(user.user_type == 4)
+        {
+            return await this.projectinforepository
+            .createQueryBuilder('p')
+            .leftJoinAndSelect('p.tasks','t')
+            .leftJoinAndSelect('t.sub_tasks','st')
+            .where('st.teamleadername = :user_id', { user_id } )
+            .andWhere("to_date(p.CreatedAt,'YYYY-MM-DD') >:startDate",{startDate : startDate})
+            .andWhere("to_date(p.CreatedAt,'YYYY-MM-DD')<= :endDate ",{endDate : endDate})
+            .leftJoinAndSelect('st.registrations','r')
+            .getMany();
+            
+        }
+        else{
+            return await this.projectinforepository
+            .createQueryBuilder('p')
+            .leftJoinAndSelect('p.tasks','t')
+            .leftJoinAndSelect('t.sub_tasks','st')
+            .leftJoinAndSelect('st.registrations','r')
+            .where("to_date(p.CreatedAt,'YYYY-MM-DD') >:startDate",{startDate : startDate})
+            .andWhere("to_date(p.CreatedAt,'YYYY-MM-DD') <= :endDate ",{endDate : endDate})
+            .getMany();
+        }
 
 
     }
 
-    async getBetween(data) {
+    async getBetween(data,user_id) {
         var startDate = data.startDate;
         var endDate = data.endDate;
-        let rawData = await this.projectinforepository.query(`SELECT * from Projectinfo where cast( "CreatedAt" as date)  BETWEEN to_date('${startDate}','YYYY-MM-DD') AND to_date('${endDate}','YYYY-MM-DD') `);
-        return rawData;
-
-
+        const user = await this.registrationService.findOneUser(user_id);
+        if(user.user_type == 2 || user.user_type == 3){
+            return await this.projectinforepository
+            .createQueryBuilder('p')
+            .leftJoinAndSelect('p.tasks','t')
+            .leftJoinAndSelect('t.sub_tasks','st')
+            .where('st.user_id = :user_id', { user_id } )
+            .andWhere("to_date(p.CreatedAt,'YYYY-MM-DD') >:startDate",{startDate : startDate})
+            .andWhere("to_date(p.CreatedAt,'YYYY-MM-DD')<= :endDate ",{endDate : endDate})
+            .getMany();
+        }
+        else if(user.user_type == 4)
+        {
+            return await this.projectinforepository
+            .createQueryBuilder('p')
+            .leftJoinAndSelect('p.tasks','t')
+            .leftJoinAndSelect('t.sub_tasks','st')
+            .where('st.teamleadername = :user_id', { user_id } )
+            .andWhere("to_date(p.CreatedAt,'YYYY-MM-DD') >:startDate",{startDate : startDate})
+            .andWhere("to_date(p.CreatedAt,'YYYY-MM-DD')<= :endDate ",{endDate : endDate})
+            .leftJoinAndSelect('st.registrations','r')
+            .getMany();
+            
+        }
+        else{
+            return await this.projectinforepository
+            .createQueryBuilder('p')
+            .leftJoinAndSelect('p.tasks','t')
+            .leftJoinAndSelect('t.sub_tasks','st')
+            .leftJoinAndSelect('st.registrations','r')
+            .where("to_date(p.CreatedAt,'YYYY-MM-DD') >:startDate",{startDate : startDate})
+            .andWhere("to_date(p.CreatedAt,'YYYY-MM-DD')<= :endDate ",{endDate : endDate})
+            .getMany();
+        }
     }
-
 
 }

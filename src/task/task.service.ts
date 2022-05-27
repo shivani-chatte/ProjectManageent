@@ -30,7 +30,7 @@ export class TaskService {
         return msg
       }
       
-    
+    //----------------------finding project by id---------------------//
       async getprojectById(id): Promise<Projectinfo>{
         let projectinfo=  await this.projectinfoRepository.findOne(id, {relations :['tasks']});
         if(!projectinfo){
@@ -44,7 +44,7 @@ export class TaskService {
         async findall(){
             const task = await createQueryBuilder("task") 
                                 .leftJoinAndSelect("task.project_infos",'pi')
-                                .where({Status:0})
+                                .where({status:0})
                                 .getMany()
           return task
           
@@ -53,13 +53,21 @@ export class TaskService {
       //-------------------------------find one task by id-------------------------------------------//
 
       async gettaskbyId(id:number){
-        const found= await this.taskRepository.findOne(id,{relations:['categorys','prioritys']});
+        const found= await createQueryBuilder("task")
+                        .leftJoinAndSelect("task.categorys",'c')
+                        .leftJoinAndSelect("task.prioritys",'p')
+                        .leftJoinAndSelect("task.project_infos", 'pi')
+                        .leftJoinAndSelect("task.taskassigns",'t')
+                        .leftJoinAndSelect("t.registrations",'r')
+                        .where({id})
+                        .andWhere({status : 0})
+                        .getOne()
         if(!found){
          throw new NotFoundException('data not found');
         }
-        if(found.status == 1){
-            throw new NotFoundException('data not found');
-        }
+        // if(found.status == 1){
+        //     throw new NotFoundException('data not found');
+        // }
         return found;
         
       }
@@ -104,7 +112,7 @@ export class TaskService {
         ...(tasks.status && { status: 1 })});
     }
 
-    
+    //---------------------- resource dropdown for task---------------------------//
     async getResource(id){
       return await this.projectinfoRepository
       .createQueryBuilder('p')

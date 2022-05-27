@@ -195,4 +195,14 @@ export class RegistrationService {
       ...(users.status && { status: 1 })});
   }
 
+  //-------------------finding leader----------------------------//
+  async findleader(){
+    const users = await createQueryBuilder("registration") 
+                        .leftJoinAndSelect("registration.departments",'d')
+                        .leftJoinAndSelect("registration.user_types",'ut')
+                        .where({status:0, user_type : 4})
+                        .getMany()
+    return users
+  }
+
 }

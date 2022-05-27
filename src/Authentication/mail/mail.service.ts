@@ -3,6 +3,8 @@ import { BadRequestException, Injectable, NotFoundException } from "@nestjs/comm
 import { RegistrationService } from "src/registration/registration.service";
 import * as md5 from 'apache-md5';
 import { from } from "rxjs";
+
+var CryptoJS = require("crypto-js");
 // import { RegistrationService } from "src/registration/registration.service";
 
 
@@ -26,7 +28,11 @@ export class MailService {
         }
         else {
             var currentDate = new Date();
-            var encryptedDate = md5(currentDate)
+            var Data = currentDate.toString()
+            var key = "2e35";
+            var encryptedDate = CryptoJS.AES.encrypt(Data, key).toString();
+
+            console.log(encryptedDate)
             await this.mailerService.sendMail({
                 to: data.email,
                 template: '/email',
